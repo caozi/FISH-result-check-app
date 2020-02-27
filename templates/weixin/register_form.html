@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  </head>
+      <body>
+          <form action="/weixin/register/" method="post">
+              <legend class="text-center">登记</legend>  
+                <div class="form-group">
+                    <label for="ID" class="col-sm-2 control-lable">住院号/门诊号 *</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-lable">姓名 *</label>                                                                 
+                    <div class="col-sm-7">
+                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="gender" class="col-sm-2 control-lable">性别 *</label>                                                                 
+                      <div class="col-sm-7">
+                          <select class="custom-select" id="patient_gender" name="patient_gender">
+                              <option selected>选择</option>
+                              <option value="男">男</option>
+                              <option value="女">女</option>
+                          </select>
+                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="age" class="col-sm-2 control-lable">年龄 *</label>                                                                 
+                     <div class="col-sm-7">
+                      <input type="text" name="patient_age" id="patient_age" class="form-control" maxlength="30" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="test" class="col-sm-2 control-lable">检测项目 *</label>                                                                 
+                    <div class="col-sm-7">
+                         <select class="custom-select" id="patient_test" name="patient_test">
+                              <option selected>选择</option>                                                                                    
+                              <option value="MDM2">MDM2</option>
+                              <option value="HER2">HER2</option>
+                              <option value="CMYC">CMYC</option>
+                              <option value="BCL2">BCL2</option>
+                              <option value="BCL6">BCL6</option>
+                              <option value="CMYC-BCL2-BCL6">CMYC-BCL2-BCL6</option>
+                              <option value="SS18">SS18</option>
+                              <option value="EWSR1">EWSR1</option>
+                              <option value="NMYC">NMYC</option>
+                              <option value="DDIT3">DDIT3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary ">登记</button>
+                </div>
+          </form>
+          <!-- Optional JavaScript -->
+          <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+          <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
