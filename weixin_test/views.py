@@ -49,7 +49,6 @@ def register_form(request):
     params = {'openid':3}
     if request.method == 'GET':
         code = request.GET['code'] if 'code' in request.GET else None
-        state = request.GET['state']
         redirect_uri = "https://" + request.get_host() + request.get_full_path()
         print(code)
         if code:
