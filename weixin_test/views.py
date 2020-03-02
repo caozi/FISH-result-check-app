@@ -13,6 +13,7 @@ import json
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
+oathClient = WeChatOAuth(appID,appsecret,"")
 
 @csrf_exempt
 def index(request):
@@ -45,8 +46,25 @@ def create_menu(request):
     return HttpResponse('ok')
 
 def register_form(request):
-    # oa = WeChatOAuth(appID,appsecret,'http://georgecaozi.pythonanywhere.com/weixin/register_form/')
-    # user_info = oa.get_user_info()
+    if request.method == GET:
+        code = request.GET['code'] if 'code' in request.GET else None
+        state = request.GET['state']
+        redirect_uri = "https://" + request.get_host() + request.get_full_path()
+        if code:
+            es = oauthClient.fetch_access_token(code=code)
+            refresh_token = res['refresh_token']
+            if oauthClient.check_access_token():  
+                try:  
+                    user_info = oauthClient.get_user_info()  
+                    wechat_id = user_info['openid']
+                    params = {'openid':wechat_id}
+            else:
+                res = oauthClient.refresh_access_token(refresh_token)
+                try:  
+                    access_token = res['access_token']
+                    user_info = oauthClient.get_user_info()
+                    wechat_id = user_info['openid']
+                    params = {'openid':wechat_id}
     params = {'openid':3}
     return render_to_response('weixin/register_form.html', params)
 
