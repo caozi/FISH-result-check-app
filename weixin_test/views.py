@@ -13,7 +13,7 @@ import json
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
-oathClient = WeChatOAuth(appID,appsecret,"")
+
 
 @csrf_exempt
 def index(request):
@@ -46,6 +46,7 @@ def create_menu(request):
     return HttpResponse('ok')
 
 def register_form(request):
+    oauthClient = WeChatOAuth(appID,appsecret,"")
     if request.method == GET:
         code = request.GET['code'] if 'code' in request.GET else None
         state = request.GET['state']
