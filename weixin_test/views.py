@@ -49,7 +49,7 @@ def register_form(request):
     params = {'openid':3}
     if request.method == 'GET':
         code = request.GET['code'] if 'code' in request.GET else None
-        redirect_uri = "https://" + request.get_host() + request.get_full_path()
+        redirect_uri = "https://" + 'georgecaozi.pythonanywhere.com/weixin/query_form'
         print(code)
         if code:
             es = oauthClient.fetch_access_token(code=code)
