@@ -45,7 +45,10 @@ def create_menu(request):
     return HttpResponse('ok')
 
 def register_form(request):
-    return render_to_response('weixin/register_form.html')
+    oa = WeChatOAuth(appID,appsecret,'http://georgecaozi.pythonanywhere.com/weixin/register_form/')
+    user_info = oa.get_user_info()
+    params = user_info['params']
+    return render(request,oa.authorize_url(), params)
 
 def query_form(request):
     return render_to_response('weixin/query_form.html')
