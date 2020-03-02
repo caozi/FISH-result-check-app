@@ -51,6 +51,7 @@ def register_form(request):
         code = request.GET['code'] if 'code' in request.GET else None
         state = request.GET['state']
         redirect_uri = "https://" + request.get_host() + request.get_full_path()
+        print(code)
         if code:
             es = oauthClient.fetch_access_token(code=code)
             refresh_token = res['refresh_token']
