@@ -48,7 +48,7 @@ def register_form(request):
     # oa = WeChatOAuth(appID,appsecret,'http://georgecaozi.pythonanywhere.com/weixin/register_form/')
     # user_info = oa.get_user_info()
     params = {'openid':3}
-    return render(request,weixin/register_form.html, params)
+    return render_to_response('weixin/register_form.html', params)
 
 def query_form(request):
     return render_to_response('weixin/query_form.html')
