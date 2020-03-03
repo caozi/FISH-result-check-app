@@ -40,7 +40,6 @@ def create_menu(request):
         "button":[
             {"type":"view","name":"登记","url":"http://georgecaozi.pythonanywhere.com/weixin/register_form/"},
             {"type":"view","name":"查询","url":"http://georgecaozi.pythonanywhere.com/weixin/query_form"},
-            {"type":"view","name":"登录","url":"http://georgecaozi.pythonanywhere.com/admin/"},
             ]
         }
             )
@@ -55,18 +54,7 @@ def register_form(request):
     if request.method == 'GET':
         code = request.GET['code']
         res = oauthClient.fetch_access_token(code=code)
-        refresh_token = res['refresh_token']
         params = {'openid':res['openid']}
-        # if oauthClient.check_access_token():   
-        #     user_info = oauthClient.get_user_info()  
-        #     wechat_id = user_info['openid']
-        #     params = {'openid':wechat_id}
-        # else:
-        #     res = oauthClient.refresh_access_token(refresh_token)  
-        #     access_token = res['access_token']
-        #     user_info = oauthClient.get_user_info()
-        #     wechat_id = user_info['openid']
-        #     params = {'openid':wechat_id}
     else:
         params = {'openid':'error'}
     return render_to_response('weixin/register_form.html', params)
@@ -82,7 +70,7 @@ def register(request):
         p_name = request.POST.get('patient_name','')
         p_gender = request.POST.get('patient_gender','')
         p_age = request.POST.get('patient_age','')
-        p_test = request.POST.get('patient_test','')
+        p_openID = request.POST.get('patient_openID','')
         p_result = Result.objects.get(result="尚未完成")
         try:
             _ = Patient.objects.get(patient_id = p_id)
@@ -91,7 +79,7 @@ def register(request):
                     patient_name=p_name,
                     patient_gender=p_gender,
                     patient_age=p_age,
-                    patient_test = p_test,
+                    patient_openID = p_openID,
                     patient_result = p_result
                 )
             p.save()
@@ -101,7 +89,7 @@ def register(request):
                             'patient_name':p_name,
                             'patient_age':p_age,
                             'patient_gender':p_gender,
-                            'patient_test':p_test,
+                            'patient_openID':p_openID,
                             'patient_result':p_result
                     }
             return render(request,'weixin/register_form_override.html',context_dict)
