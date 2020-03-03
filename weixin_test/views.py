@@ -1,4 +1,4 @@
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from wechatpy import parse_message,create_reply
 from wechatpy.utils import check_signature
@@ -13,7 +13,8 @@ import json
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
-oauthClient = WeChatOAuth(appID,appsecret,"")
+redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_after_form"
+oauthClient = WeChatOAuth(appID,appsecret,redirect_uri)
 
 @csrf_exempt
 def index(request):
@@ -45,25 +46,28 @@ def create_menu(request):
             )
     return HttpResponse('ok')
 
+
+def get_openid(request):
+    return redirect(oauthClient.authorize_url)
+
+
 def register_form(request):
-    params = {'openid':3}
     if request.method == 'GET':
-        code = request.GET['code'] if 'code' in request.GET else None
-        redirect_uri = "https://" + 'georgecaozi.pythonanywhere.com/weixin/query_form'
-        print(code)
-        if code:
-            es = oauthClient.fetch_access_token(code=code)
-            refresh_token = res['refresh_token']
-            if oauthClient.check_access_token():   
-                user_info = oauthClient.get_user_info()  
-                wechat_id = user_info['openid']
-                params = {'openid':wechat_id}
-            else:
-                res = oauthClient.refresh_access_token(refresh_token)  
-                access_token = res['access_token']
-                user_info = oauthClient.get_user_info()
-                wechat_id = user_info['openid']
-                params = {'openid':wechat_id}
+        code = request.GET['code']
+        res = oauthClient.fetch_access_token(code=code)
+        refresh_token = res['refresh_token']
+        if oauthClient.check_access_token():   
+            user_info = oauthClient.get_user_info()  
+            wechat_id = user_info['openid']
+            params = {'openid':wechat_id}
+        else:
+            res = oauthClient.refresh_access_token(refresh_token)  
+            access_token = res['access_token']
+            user_info = oauthClient.get_user_info()
+            wechat_id = user_info['openid']
+            params = {'openid':wechat_id}
+    else:
+        params = {'openid':'error'}
     return render_to_response('weixin/register_form.html', params)
 
 def query_form(request):
