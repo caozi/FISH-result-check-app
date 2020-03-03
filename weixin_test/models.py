@@ -12,7 +12,7 @@ class Patient(models.Model):
     patient_name = models.CharField(max_length=200)
     patient_gender = models.CharField(max_length=200)
     patient_age = models.IntegerField()
-    patient_test = models.CharField(max_length=200)
+    patient_openID = models.CharField(max_length=200)
     patient_result = models.ForeignKey(Result,on_delete=models.CASCADE,blank=True)
 
     def __str__(self):

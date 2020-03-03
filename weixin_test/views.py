@@ -71,7 +71,7 @@ def register(request):
         p_gender = request.POST.get('patient_gender','')
         p_age = request.POST.get('patient_age','')
         p_openID = request.POST.get('patient_openID','')
-        p_result = Result.objects.get(result="尚未完成")
+        p_result = Result.objects.get(result="正在处理中")
         try:
             _ = Patient.objects.get(patient_id = p_id)
         except Patient.DoesNotExist:
