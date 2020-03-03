@@ -13,7 +13,7 @@ import json
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
-redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_after_form"
+redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
 oauthClient = WeChatOAuth(appID,appsecret,redirect_uri)
 
 @csrf_exempt
