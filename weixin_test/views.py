@@ -55,7 +55,9 @@ def register_form(request):
     if request.method == 'GET':
         code = request.GET['code']
         res = oauthClient.fetch_access_token(code=code)
+        print(res)
         refresh_token = res['refresh_token']
+
         if oauthClient.check_access_token():   
             user_info = oauthClient.get_user_info()  
             wechat_id = user_info['openid']
