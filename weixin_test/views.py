@@ -147,7 +147,7 @@ def login(request):
         if data[user_name] == user_password:
             pass
         else:
-            return render_to_response('weixin/query_form.html')
+            return render_to_response('weixin/login_error.html')
         
            
     return HttpResponse('Data not received',content_type="text/plain")
