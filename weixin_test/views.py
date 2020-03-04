@@ -151,7 +151,7 @@ def login(request):
             else:
                 return render_to_response('weixin/login_error.html')
         except:
-            return render_to_response('weixin/login_error.html')
+            return render_to_response('weixin/query_error.html')
         
            
     return HttpResponse('Data not received',content_type="text/plain")
