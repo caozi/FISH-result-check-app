@@ -4,12 +4,13 @@ from wechatpy import parse_message,create_reply
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.replies import ArticlesReply
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient,Result
 import json
 from .users import data
+from django.template import RequestContext
 # test account information
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
@@ -139,14 +140,16 @@ def login_form(request):
     return render_to_response('weixin/login_form.html')
 
 
-@csrf_exempt
+@csrf_protect
 def login(request):
     if request.method == "POST":
-        user_name = request.POST.get('user_name','')
-        user_password = request.POST.get('user_password','')
-        if data[user_name] == user_password:
-            pass
-        else:
+        csrf_protect_text = RequestContext(request)
+        user_name = csrf_protect_text['user_name']
+        user_password = csrf_protect_text['user_password']
+        try:
+            if data[user_name] == user_password:
+                pass
+        except:
             return render_to_response('weixin/login_error.html')
         
            
