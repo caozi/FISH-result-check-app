@@ -140,7 +140,7 @@ def login_form(request):
     return render_to_response('weixin/login_form.html')
 
 
-@csrf_protect
+@csrf_exempt
 def login(request):
     if request.method == "POST":
         # csrf_protect_text = RequestContext(request)
