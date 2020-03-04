@@ -145,13 +145,17 @@ def login(request):
     if request.method == "POST":
         user_name = request.POST.get('user_name','')
         user_password = request.POST.get('user_password','')
-        try:
-            if data[user_name] == user_password:
-                return render_to_response('weixin/admin_query_form.html')
-            else:
-                return render_to_response('weixin/login_error.html')
-        except:
-            return render_to_response('weixin/query_error.html')
+        # try:
+        #     if data[user_name] == user_password:
+        #         return render_to_response('weixin/admin_query_form.html')
+        #     else:
+        #         return render_to_response('weixin/login_error.html')
+        # except:
+        #     return render_to_response('weixin/query_error.html')
+        if data[user_name] == user_password:
+            return render_to_response('weixin/admin_query_form.html')
+        else:
+            return render_to_response('weixin/login_error.html')
         
            
     return HttpResponse('Data not received',content_type="text/plain")
