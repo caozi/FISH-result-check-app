@@ -19,13 +19,12 @@
                   <div class="col-sm-7">
                       <select class="custom-select" id="patient_result" name="patient_gender">
                           <option selected>选择</option>
-                          {% for x, y in form.fields.customer.choices %}
-                          <option value="{{ x }}"{% if form.fields.customer.value == x %} selected{% endif %}>{{ y }}</option>
+                          {% for x in form.fields.customer.choices %}
+                          <option value="{{ x }}">{{ x }}</option>
                           {% endfor %}
                       </select>
                  </div>
                </div>
-
                <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">警告</h4>
                     <p>是否修改结果？修改后会发出通知</p>
