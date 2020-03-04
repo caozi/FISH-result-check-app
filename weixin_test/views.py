@@ -9,6 +9,7 @@ from wechatpy.replies import ArticlesReply
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient,Result
 import json
+from .users import data
 # test account information
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
@@ -138,4 +139,13 @@ def login_form(request):
     return render_to_response('weixin/login_form.html')
 
 def login(request):
-    pass
+    if request.method == "POST":
+        user_name = request.POST.get('user_name','')
+        user_password = request.POST.get('user_password','')
+        if data[user_name] == user_password:
+            pass
+        else:
+            return render_to_response('weixin/query_form.html')
+        
+           
+    return HttpResponse('Data not received',content_type="text/plain")
