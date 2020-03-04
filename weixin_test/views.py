@@ -136,3 +136,6 @@ def register_override(request):
 
 def login_form(request):
     return render_to_response('weixin/login_form.html')
+
+def login(request):
+    pass
