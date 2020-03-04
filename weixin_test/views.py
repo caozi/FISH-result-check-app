@@ -15,6 +15,7 @@ appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
 oauthClient = WeChatOAuth(appID,appsecret,redirect_uri)
+client = WeChatClient(appID,appsecret)
 
 @csrf_exempt
 def index(request):
@@ -35,11 +36,11 @@ def index(request):
         return HttpResponse('ERROR')
 
 def create_menu(request):
-    client = WeChatClient(appID,appsecret)
     client.menu.create({
         "button":[
             {"type":"view","name":"登记","url":"http://georgecaozi.pythonanywhere.com/weixin/register_form/"},
             {"type":"view","name":"查询","url":"http://georgecaozi.pythonanywhere.com/weixin/query_form"},
+            {"type":"view","name":"登录","url":"http://georgecaozi.pythonanywhere.com/weixin/login_form"}
             ]
         }
             )
@@ -132,3 +133,6 @@ def register_override(request):
         return HttpResponseRedirect('register_success/')
     return HttpResponse('Data not received',content_type="text/plain")  
 
+
+def login(request):
+    return render_to_response('weixin/login_form.html')

@@ -12,4 +12,6 @@ urlpatterns = [
         path('register_override/register_success/',views.register_success,name='register_override_success'),
         path('query_form/',views.query_form,name='query_form'),
         path('query/',views.query,name='query'),
+        path('login_form/',views.login_form,name='login_form'),
+        path('login/',views.login,name='login')
 ]
