@@ -134,5 +134,5 @@ def register_override(request):
     return HttpResponse('Data not received',content_type="text/plain")  
 
 
-def login(request):
+def login_form(request):
     return render_to_response('weixin/login_form.html')
