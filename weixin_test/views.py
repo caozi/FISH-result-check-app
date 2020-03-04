@@ -138,6 +138,8 @@ def register_override(request):
 def login_form(request):
     return render_to_response('weixin/login_form.html')
 
+
+@csrf_exempt
 def login(request):
     if request.method == "POST":
         user_name = request.POST.get('user_name','')
