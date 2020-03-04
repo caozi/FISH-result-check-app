@@ -143,13 +143,13 @@ def login_form(request):
 @csrf_protect
 def login(request):
     if request.method == "POST":
-        csrf_protect_text = RequestContext(request)
-        user_name = csrf_protect_text['user_name']
-        user_password = csrf_protect_text['user_password']
-        try:
-            if data[user_name] == user_password:
-                pass
-        except:
+        # csrf_protect_text = RequestContext(request)
+        # user_name = csrf_protect_text['user_name']
+        # user_password = csrf_protect_text['user_password']
+        # try:
+        #     if data[user_name] == user_password:
+        #         pass
+        # except:
             return render_to_response('weixin/login_error.html')
         
            
