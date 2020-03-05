@@ -87,7 +87,6 @@ def register(request):
                     patient_result = p_result
                 )
             p.save()
-            send_message(template_ID,p)
             return HttpResponseRedirect('register_success/')
         else:
             context_dict = {'patient_id':p_id,
@@ -123,10 +122,7 @@ def register_override(request):
         p_gender = request.POST.get('patient_gender','')
         p_age = request.POST.get('patient_age','')
         p_openID = request.POST.get('patient_openID','')
-        try:
-            p_result = Result.objects.get(request.POST.get('patient_result',''))
-        except:
-            p_result = Result.objects.get(result="正在处理中")
+        p_result = Result.objects.get(result="正在处理中")
         p = Patient.objects.get(patient_id = p_id)
         p.delete()
         p = Patient(patient_id = p_id,
@@ -137,7 +133,6 @@ def register_override(request):
                 patient_result = p_result
              )
         p.save()
-        send_message(template_ID,p)
         return HttpResponseRedirect('register_success/')
     return HttpResponse('Data not received',content_type="text/plain")  
 
@@ -180,5 +175,31 @@ def send_message(template_ID,patient):
           'patient_name':{'value':patient.patient_name},
           'patient_age':{'value':patient.patient_age},
           'patient_gender':{'value':patient.patient_gender},
-          'patient_result':{'value':patient.patient_result.result,'color':'#B22222'}}
+          'patient_result':{'value':patient.patient_result.result,'color':'#B22222'}
+        }
     client.message.send_template(patient.patient_openID,template_ID,data)
+
+
+
+@csrf_exempt
+def admin_query_override(request):
+    if request.method == "POST":                                                                                                                
+        p_id = request.POST.get('patient_id','')
+        p_name = request.POST.get('patient_name','')
+        p_gender = request.POST.get('patient_gender','')
+        p_age = request.POST.get('patient_age','')
+        p_openID = request.POST.get('patient_openID','')
+        p_result = Result.objects.get(result=request.POST.get('patient_result',''))
+        p = Patient.objects.get(patient_id = p_id)
+        p.delete()
+        p = Patient(patient_id = p_id,
+                patient_name=p_name,
+                patient_gender=p_gender,
+                patient_age=p_age,
+                patient_openID = p_openID,
+                patient_result = p_result
+             )
+        p.save()
+        send_message(template_ID,p)
+        return HttpResponseRedirect('register_success/')
+    return HttpResponse('Data not received',content_type="text/plain") 
