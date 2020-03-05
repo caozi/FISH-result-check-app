@@ -162,7 +162,10 @@ def login(request):
 def admin_query(request):
     if request.method == 'POST':
         p_id = request.POST.get('patient_id','')
-        p = Patient.objects.get(patient_id = p_id)
-        return render(request,'weixin/admin_query_result.html',{'patient':p})
+        try:
+            p = Patient.objects.get(patient_id = p_id)
+            return render(request,'weixin/admin_query_result.html',{'patient':p})
+        except Patient.DoesNotExist:
+            return render_to_response('weixin/query_error.html')
     return HttpResponse('Data not received',content_type="text/plain")
 
