@@ -193,13 +193,13 @@ def admin_query_override(request):
         p = Patient.objects.get(patient_id = p_id)
         p.delete()
         p = Patient(patient_id = p_id,
-                patient_name=p_name,
-                patient_gender=p_gender,
-                patient_age=p_age,
-                patient_openID = p_openID,
-                patient_result = p_result
+                    patient_name=p_name,
+                    patient_gender=p_gender,
+                    patient_age=p_age,
+                    patient_openID = p_openID,
+                    patient_result = p_result
              )
         p.save()
         send_message(template_ID,p)
-        return HttpResponseRedirect('register_success/')
+        return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received',content_type="text/plain") 
