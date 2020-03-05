@@ -122,8 +122,11 @@ def register_override(request):
         p_name = request.POST.get('patient_name','')
         p_gender = request.POST.get('patient_gender','')
         p_age = request.POST.get('patient_age','')
-        p_test = request.POST.get('patient_test','')
-        p_result = Result.objects.get(result=request.POST.get('patient_result',''))
+        p_openID = request.POST.get('patient_openID','')
+        try:
+            p_result = request.POST.get('patient_result','')
+        except:
+            p_result = Result.objects.get(result="正在处理中")
         p = Patient.objects.get(patient_id = p_id)
         p.delete()
         p = Patient(patient_id = p_id,
