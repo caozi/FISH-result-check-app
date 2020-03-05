@@ -14,4 +14,5 @@ urlpatterns = [
         path('query/',views.query,name='query'),
         path('login_form/',views.login_form,name='login_form'),
         path('login/',views.login,name='login'),
+        path('admin_query/',views.admin_query,name='admin_query'),
 ]

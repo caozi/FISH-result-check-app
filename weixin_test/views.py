@@ -18,6 +18,7 @@ appsecret = '1605f2bca63385b87ec35daffa2227ea'
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
 oauthClient = WeChatOAuth(appID,appsecret,redirect_uri)
 client = WeChatClient(appID,appsecret)
+template_ID = 'H4kLGQVAOsECMjiXzytItVBsNZp0-i-loGaRBcgwKRk'
 
 @csrf_exempt
 def index(request):
@@ -145,17 +146,23 @@ def login(request):
     if request.method == "POST":
         user_name = request.POST.get('user_name','')
         user_password = request.POST.get('user_password','')
-        # try:
-        #     if data[user_name] == user_password:
-        #         return render_to_response('weixin/admin_query_form.html')
-        #     else:
-        #         return render_to_response('weixin/login_error.html')
-        # except:
-        #     return render_to_response('weixin/query_error.html')
-        if data[user_name] == user_password:
-            return render_to_response('weixin/admin_query_form.html')
-        else:
-            return render_to_response('weixin/login_error.html')
+        try:
+            if data[user_name] == user_password:
+                return render_to_response('weixin/admin_query_form.html')
+            else:
+                return render_to_response('weixin/login_error.html')
+        except:
+            return render_to_response('weixin/query_error.html')
+        
         
            
     return HttpResponse('Data not received',content_type="text/plain")
+
+@csrf_exempt
+def admin_query(request):
+    if request.method == 'POST':
+        p_id = request.POST.get('patient_id','')
+        p = Patient.objects.get(patient_id = p_id)
+        return render(request,'weixin/admin_query_result.html',{'patient':p})
+    return HttpResponse('Data not received',content_type="text/plain")
+
