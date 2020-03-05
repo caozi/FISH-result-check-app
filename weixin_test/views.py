@@ -87,6 +87,7 @@ def register(request):
                     patient_result = p_result
                 )
             p.save()
+            send_message(template_ID,p)
             return HttpResponseRedirect('register_success/')
         else:
             context_dict = {'patient_id':p_id,
@@ -133,6 +134,7 @@ def register_override(request):
                 patient_result = p_result
              )
         p.save()
+        send_message(template_ID,p)
         return HttpResponseRedirect('register_success/')
     return HttpResponse('Data not received',content_type="text/plain")  
 
@@ -169,3 +171,11 @@ def admin_query(request):
             return render_to_response('weixin/query_error.html')
     return HttpResponse('Data not received',content_type="text/plain")
 
+def send_message(template_ID,patient):
+    data={
+          'patient_id':{'value':patient.patient_id},
+          'patient_name':{'value':patient.patient_name},
+          'patient_age':{'value':patient.patient_age},
+          'patient_gender':{'value':patient.patient_gender},
+          'patient_result':{'value':patient.patient_result.result,'color':'#B22222'}}
+    client.message.send_template(patient.patient_openID,template_ID,data)
