@@ -133,7 +133,7 @@ def register_override(request):
                 patient_name=p_name,
                 patient_gender=p_gender,
                 patient_age=p_age,
-                patient_test = p_test,
+                patient_openID = p_openID,
                 patient_result = p_result
              )
         p.save()
