@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">会诊号 *</label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" required />
+                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" class="text-uppercase" required />
                     </div>
                 </div>
                 <div class="form-group">
@@ -39,7 +39,7 @@
                       <input type="text" name="patient_age" id="patient_age" class="form-control" maxlength="30" required />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="age" class="col-sm-2 control-lable">openID *</label>                                                                 
                      <div class="col-sm-7">
                       <input type="text" name="patient_openID" id="patient_openID" class="form-control" maxlength="30" value = {{openid}} required />
