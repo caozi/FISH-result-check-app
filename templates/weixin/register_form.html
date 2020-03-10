@@ -14,8 +14,14 @@
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">会诊号 *</label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" class="text-uppercase" required />
+                        <input type="text" name="patient_id_first" id="patient_id_first" class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" required />
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="ID" class="col-sm-2 control-lable">再次输入会诊号 *</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="patient_id_second" id="patient_id_second" class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" required />
+                </div>
                 </div>
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-lable">姓名 *</label>                                                                 
