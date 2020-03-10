@@ -87,6 +87,7 @@ def register(request):
                     patient_result = p_result
                 )
             p.save()
+            send_message(template_ID,p)
             return HttpResponseRedirect('register_success/')
         else:
             context_dict = {'patient_id':p_id,
@@ -133,6 +134,7 @@ def register_override(request):
                 patient_result = p_result
              )
         p.save()
+        send_message(template_ID,p)
         return HttpResponseRedirect('register_success/')
     return HttpResponse('Data not received',content_type="text/plain")  
 
