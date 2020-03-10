@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">会诊号 *</label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" required />
+                        <input type="text" name="patient_id" id="patient_id" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="30" required />
                     </div>
                 </div>
                 <div class="form-group text-center">
