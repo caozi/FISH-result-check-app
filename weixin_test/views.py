@@ -70,7 +70,7 @@ def query_form(request):
 @csrf_exempt
 def register(request):
     if request.method == "POST":
-        p_id = request.POST.get('patient_id','')
+        p_id = request.POST.get('patient_id_first','')
         p_name = request.POST.get('patient_name','')
         p_gender = request.POST.get('patient_gender','')
         p_age = request.POST.get('patient_age','23')
