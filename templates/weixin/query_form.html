@@ -12,9 +12,9 @@
           <form action="/weixin/query/" method="post">
               <legend class="text-center">查询</legend>  
                 <div class="form-group">
-                    <label for="ID" class="col-sm-2 control-lable">住院号/门诊号 *</label>
+                    <label for="ID" class="col-sm-2 control-lable">会诊号 *</label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" required />
+                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" required />
                     </div>
                 </div>
                 <div class="form-group text-center">
