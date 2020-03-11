@@ -205,3 +205,6 @@ def admin_query_override(request):
         send_message(template_ID,p)
         return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received',content_type="text/plain") 
+
+def shunfeng(request):
+    return HttpResponse('尚未开放',content_type="text/plain")
