@@ -16,7 +16,7 @@ TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
-oauthClient = WeChatOAuth(appID,appsecret,redirect_uri,scope='snsapi_userinfo')
+oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri,scope='snsapi_userinfo')
 client = WeChatClient(appID,appsecret)
 template_ID = 'H4kLGQVAOsECMjiXzytItVBsNZp0-i-loGaRBcgwKRk'
 
