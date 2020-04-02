@@ -224,5 +224,5 @@ def admin_query_override(request):
 
 
 def tutorial(request):
-    image = {'image_path':'images/steps.jpg'}
+    image = {'image_path':'steps.jpg'}
     return render(request,'weixin/tutorial.html',image)
