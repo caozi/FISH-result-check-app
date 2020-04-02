@@ -44,8 +44,7 @@ def index(request):
             reply = ArticlesReply(message=msg)
             reply.add_article({
                 'title':'一步步教你如何登记病人信息，及时得到病理结果推送',
-                'image':'steps.jpg',
-                'url':'steps.jpg',
+                'url':'http://georgecaozi.pythonanywhere.com/weixin/tutorial',
             })
         response = HttpResponse(reply.render(),content_type='application/xml')
         return response
@@ -223,3 +222,7 @@ def admin_query_override(request):
         return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received',content_type="text/plain") 
 
+
+def tutorial(request):
+    image = {'image_path':'images/steps.jpg'}
+    return render(request,'weixin/tutorial.html',image)
