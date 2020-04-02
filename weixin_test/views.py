@@ -11,6 +11,7 @@ from .models import Patient,Result
 import json
 from .users import data
 from django.template import RequestContext
+from wechatpy.replies import ArticlesReply
 
 # test account information
 TOKEN = 'hellowx'
@@ -38,9 +39,14 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply('病理结果会第一时间推送，请密切关注',msg)
-        elif msg.event == 'subscribe':
             reply = create_reply('感谢关注病理科微信公众号，病理结果会第一时间推送，请密切关注',msg)
+        elif msg.event == 'subscribe':
+            reply = ArticlesReply(message=msg)
+            reply.add_article({
+                'title':'一步步教你如何登记病人信息，及时得到病理结果推送',
+                'description':'tutorial',
+                'image':'images/steps.jpg'
+            })
         response = HttpResponse(reply.render(),content_type='application/xml')
         return response
     else:
