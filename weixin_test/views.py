@@ -41,7 +41,8 @@ def index(request):
             reply = create_reply('hello',msg)
         elif msg.type == 'subscribe':
             reply = create_reply('hello',msg)
-        return reply
+        response = HttpResponse(reply.render(),content_type='application/xml')
+        return response
     else:
         return HttpResponse('ERROR')
 
