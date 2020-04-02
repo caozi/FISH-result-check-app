@@ -44,8 +44,8 @@ def index(request):
             reply = ArticlesReply(message=msg)
             reply.add_article({
                 'title':'一步步教你如何登记病人信息，及时得到病理结果推送',
-                
                 'image':'steps.jpg'
+                'url':'steps.jpg',
             })
         response = HttpResponse(reply.render(),content_type='application/xml')
         return response
