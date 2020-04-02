@@ -38,9 +38,9 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply('hello',msg)
-        elif msg.type == 'subscribe':
-            reply = create_reply('hello',msg)
+            reply = create_reply('病理结果会第一时间推送，请密切关注',msg)
+        elif msg.event == 'subscribe':
+            reply = create_reply('感谢关注病理科微信公众号，病理结果会第一时间推送，请密切关注',msg)
         response = HttpResponse(reply.render(),content_type='application/xml')
         return response
     else:
