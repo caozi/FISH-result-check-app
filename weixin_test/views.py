@@ -11,6 +11,7 @@ from .models import Patient,Result
 import json
 from .users import data
 from django.template import RequestContext
+
 # test account information
 TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
@@ -20,23 +21,31 @@ oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_ur
 client = WeChatClient(appID,appsecret)
 template_ID = 'H4kLGQVAOsECMjiXzytItVBsNZp0-i-loGaRBcgwKRk'
 
+# @csrf_exempt
+# def index(request):
+#     if request.method == 'GET':      
+#         signature = request.GET.get('signature','')
+#         timestamp = request.GET.get('timestamp','')
+#         nonce = request.GET.get('nonce','')
+#         echostr = request.GET.get('echostr','')
+#         try:
+#             check_signature(TOKEN,signature,timestamp,nonce)
+#         except InvalidSignatureException:
+#             echostr = 'error'
+#         response = HttpResponse(echostr,content_type="text/plain")
+#         return response
+#     elif request.method == 'POST':
+#         return HttpResponse('尚未开放此功能')
+#     else:
+#         return HttpResponse('ERROR')
+
 @csrf_exempt
-def index(request):
-    if request.method == 'GET':      
-        signature = request.GET.get('signature','')
-        timestamp = request.GET.get('timestamp','')
-        nonce = request.GET.get('nonce','')
-        echostr = request.GET.get('echostr','')
-        try:
-            check_signature(TOKEN,signature,timestamp,nonce)
-        except InvalidSignatureException:
-            echostr = 'error'
-        response = HttpResponse(echostr,content_type="text/plain")
-        return response
-    elif request.method == 'POST':
+def index(request):    
+    if request.method == 'POST':
         return HttpResponse('尚未开放此功能')
     else:
         return HttpResponse('ERROR')
+
 
 def create_menu(request):
     client.menu.create({
