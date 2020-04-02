@@ -16,5 +16,4 @@ urlpatterns = [
         path('login/',views.login,name='login'),
         path('admin_query/',views.admin_query,name='admin_query'),
         path('admin_query_override/',views.admin_query_override,name='admin_query_override'),
-        path('tutorial/',views.tutorial,name='tutorial'),
 ]

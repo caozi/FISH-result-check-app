@@ -11,7 +11,6 @@ from .models import Patient,Result
 import json
 from .users import data
 from django.template import RequestContext
-from wechatpy.replies import ArticlesReply
 
 # test account information
 TOKEN = 'hellowx'
@@ -39,13 +38,9 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply('感谢关注病理科微信公众号，病理结果会第一时间推送，请密切关注',msg)
+            reply = create_reply('感谢关注病理科微信公众号测试号，病理结果会第一时间推送，请密切关注',msg)
         elif msg.event == 'subscribe':
-            reply = ArticlesReply(message=msg)
-            reply.add_article({
-                'title':'一步步教你如何登记病人信息，及时得到病理结果推送',
-                'url':'http://georgecaozi.pythonanywhere.com/weixin/tutorial',
-            })
+            reply = create_reply('感谢关注病理科微信公众号测试号，点击登记菜单，填写病人信息，系统会第一时间推送病理报告状态，请密切关注',msg)
         response = HttpResponse(reply.render(),content_type='application/xml')
         return response
     else:
@@ -222,6 +217,3 @@ def admin_query_override(request):
         return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received',content_type="text/plain") 
 
-
-def tutorial(request):
-    return render_to_response('weixin/tutorial.html')
