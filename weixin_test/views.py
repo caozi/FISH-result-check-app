@@ -7,7 +7,7 @@ from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.replies import ArticlesReply
 from wechatpy.oauth import WeChatOAuth
-from .models import Patient,Result
+from .models import Patient
 import json
 from .users import data
 from django.template import RequestContext
