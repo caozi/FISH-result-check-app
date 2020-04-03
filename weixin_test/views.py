@@ -17,9 +17,10 @@ TOKEN = 'hellowx'
 appID = 'wx6c11f5e4bbd229bd'
 appsecret = '1605f2bca63385b87ec35daffa2227ea'
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
-oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri,scope='snsapi_userinfo')
+oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri)
 client = WeChatClient(appID,appsecret)
-template_ID = 'H4kLGQVAOsECMjiXzytItVBsNZp0-i-loGaRBcgwKRk'
+template_ID = 'HQDI-fJbo6NF86eMKtqacDxeguvIO0kCkjUN_xXk2e4'
+
 
 @csrf_exempt
 def index(request):
@@ -61,7 +62,6 @@ def create_menu(request):
 
 
 def get_openid(request):
-    # return redirect(oauthClient.authorize_url)
     return HttpResponseRedirect(oauthClient.authorize_url)
 
 
@@ -74,6 +74,7 @@ def register_form(request):
         params = {'openid':'error'}
     return render_to_response('weixin/register_form.html', params)
 
+
 def query_form(request):
     return render_to_response('weixin/query_form.html')
     
@@ -83,19 +84,15 @@ def register(request):
     if request.method == "POST":
         p_id = request.POST.get('patient_id_first','')
         p_name = request.POST.get('patient_name','')
-        p_gender = request.POST.get('patient_gender','')
-        p_age = request.POST.get('patient_age','23')
         p_openID = request.POST.get('patient_openID','')
-        p_result = Result.objects.get(result="正在处理中")
+        p_status = "正在处理中"
         try:
             _ = Patient.objects.get(patient_id = p_id)
         except Patient.DoesNotExist:
             p = Patient(patient_id = p_id,
                     patient_name=p_name,
-                    patient_gender=p_gender,
-                    patient_age=p_age,
                     patient_openID = p_openID,
-                    patient_result = p_result
+                    patient_status = p_status
                 )
             p.save()
             send_message(template_ID,p)
@@ -103,10 +100,8 @@ def register(request):
         else:
             context_dict = {'patient_id':p_id,
                             'patient_name':p_name,
-                            'patient_age':p_age,
-                            'patient_gender':p_gender,
                             'patient_openID':p_openID,
-                            'patient_result':p_result
+                            'patient_status':p_status
                     }
             return render(request,'weixin/register_form_override.html',context_dict)
            
@@ -130,19 +125,21 @@ def register_success(request):
 def register_override(request):
     if request.method == "POST":                                                                                                                
         p_id = request.POST.get('patient_id','')
+        c_id = request.POST.get('cash_id_first','')
         p_name = request.POST.get('patient_name','')
         p_gender = request.POST.get('patient_gender','')
         p_age = request.POST.get('patient_age','')
         p_openID = request.POST.get('patient_openID','')
-        p_result = Result.objects.get(result="正在处理中")
+        p_status = "登记完成，处理中"
         p = Patient.objects.get(patient_id = p_id)
         p.delete()
         p = Patient(patient_id = p_id,
+                cash_id = c_id,
                 patient_name=p_name,
                 patient_gender=p_gender,
                 patient_age=p_age,
                 patient_openID = p_openID,
-                patient_result = p_result
+                patient_status = p_status
              )
         p.save()
         send_message(template_ID,p)
@@ -186,9 +183,7 @@ def send_message(template_ID,patient):
     data={
           'patient_id':{'value':patient.patient_id},
           'patient_name':{'value':patient.patient_name},
-          'patient_age':{'value':patient.patient_age},
-          'patient_gender':{'value':patient.patient_gender},
-          'patient_result':{'value':patient.patient_result.result,'color':'#B22222'}
+          'patient_status':{'value':patient.patient_status,'color':'#B22222'}
         }
     client.message.send_template(patient.patient_openID,template_ID,data)
 
@@ -199,18 +194,14 @@ def admin_query_override(request):
     if request.method == "POST":                                                                                                                
         p_id = request.POST.get('patient_id','')
         p_name = request.POST.get('patient_name','')
-        p_gender = request.POST.get('patient_gender','')
-        p_age = request.POST.get('patient_age','')
         p_openID = request.POST.get('patient_openID','')
-        p_result = Result.objects.get(result=request.POST.get('patient_result',''))
+        p_status = request.POST.get('patient_status','')
         p = Patient.objects.get(patient_id = p_id)
         p.delete()
         p = Patient(patient_id = p_id,
                     patient_name=p_name,
-                    patient_gender=p_gender,
-                    patient_age=p_age,
                     patient_openID = p_openID,
-                    patient_result = p_result
+                    patient_status = p_status
              )
         p.save()
         send_message(template_ID,p)

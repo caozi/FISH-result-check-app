@@ -12,7 +12,7 @@
           <form action="/weixin/register/" method="post">
               <legend class="text-center">会诊信息登记</legend>  
                 <div class="form-group">
-                    <label for="ID" class="col-sm-2 control-lable">会诊号*  (例:HZ12345)</label>
+                    <label for="ID" class="col-sm-2 control-lable">会诊号*</label>
                     <div class="col-sm-7">
                         <input type="text" name="patient_id_first" id="patient_id_first" class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" required />
                     </div>
@@ -24,37 +24,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ID" class="col-sm-2 control-lable">门诊号*  (例:12345678)</label>
+                    <label for="name" class="col-sm-2 control-lable">患者姓名*</label>                                                            
                     <div class="col-sm-7">
-                        <input type="text" name="cash_id_first" id="cash_id_first" class="form-control" maxlength="30"  onfocus="checkPatientID()" required />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ID" class="col-sm-2 control-lable">再次输入门诊号*</label>
-                    <div class="col-sm-7">
-                        <input type="text" name="cash_id_second" id="cash_id_second" class="form-control" maxlength="30"   required />
-                </div>
-                </div>
-                <div class="form-group">
-                    <label for="name" class="col-sm-2 control-lable">患者姓名*</label>                                                                 
-                    <div class="col-sm-7">
-                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30"  onfocus="checkCashID()" required />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="gender" class="col-sm-2 control-lable">患者性别*</label>                                                                 
-                      <div class="col-sm-7">
-                          <select class="custom-select" id="patient_gender" name="patient_gender">
-                              <option selected>选择</option>
-                              <option value="男">男</option>
-                              <option value="女">女</option>
-                          </select>
-                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="age" class="col-sm-2 control-lable">患者年龄*</label>                                                                 
-                     <div class="col-sm-7">
-                      <input type="text" name="patient_age" id="patient_age" class="form-control" maxlength="30" required />
+                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30"  onfocus="checkPatientID()" required />
                     </div>
                 </div>
                 <div class="form-group" style="display: none;">
@@ -82,17 +54,6 @@
                 document.getElementById('patient_id_second').value = '';
                 document.getElementById('patient_id_first').focus();
             } 
-        }
-
-        function checkCashID() {
-            if (document.getElementById('cash_id_first').value != document.getElementById('cash_id_second').value)
-            {
-                alert('两次门诊号不一样，请重新输入');
-                document.getElementById('cash_id_first').value= '';
-                document.getElementById('cash_id_second').value = '';
-                document.getElementById('cash_id_first').focus();
-            } 
-        }
-        
+        }       
         </script> 
 </html>
