@@ -19,7 +19,7 @@ appsecret = '1605f2bca63385b87ec35daffa2227ea'
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
 oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri)
 client = WeChatClient(appID,appsecret)
-template_ID = 'HQDI-fJbo6NF86eMKtqacDxeguvIO0kCkjUN_xXk2e4'
+template_ID = 'TjBLnJnwHZCMqFk9vcbRANyUOKTUIDownzX-eWoU_jk'
 
 
 @csrf_exempt
