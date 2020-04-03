@@ -10,39 +10,39 @@
   </head>
       <body>
           <form action="/weixin/admin_query_override/" method="post">
-              <legend class="text-center">登记</legend>  
+              <legend class="text-center">病人信息</legend>  
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">会诊号 </label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" placeholder="Disabled input" value = {{ patient.patient_id }} required />
+                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{ patient.patient_id }} required />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-lable">姓名 </label>                                                                 
                     <div class="col-sm-7">
-                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30" placeholder="Disabled input" value = {{ patient.patient_name }} required />
+                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{ patient.patient_name }} required />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="patient_gender" class="col-sm-2 control-lable">性别 </label>                                                                 
                     <div class="col-sm-7">
-                        <input type="text" name="patient_gender" id="patient_gender" class="form-control" maxlength="30" placeholder="Disabled input" value = {{ patient.patient_gender }} required />
+                        <input type="text" name="patient_gender" id="patient_gender" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{ patient.patient_gender }} required />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="patient_age" class="col-sm-2 control-lable">年龄 </label>                                                                 
                      <div class="col-sm-7">
-                      <input type="text" name="patient_age" id="patient_age" class="form-control" maxlength="30" placeholder="Disabled input" value = {{ patient.patient_age }} required />
+                      <input type="text" name="patient_age" id="patient_age" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{ patient.patient_age }} required />
                     </div>
                 </div>
                 <div class="form-group" style="display: none;">
                     <label for="age" class="col-sm-2 control-lable">openID *</label>                                                                 
                      <div class="col-sm-7">
-                      <input type="text" name="patient_openID" id="patient_openID" class="form-control" maxlength="30" placeholder="Disabled input" value = {{patient.patient_openID}} required />
+                      <input type="text" name="patient_openID" id="patient_openID" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{patient.patient_openID}} required />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="patient_result" class="col-sm-2 control-lable">结果 </label>                                                                 
+                    <label for="patient_result" class="col-sm-2 control-lable">状态</label>                                                                 
                       <div class="col-sm-7">
                           <select class="custom-select" id="patient_result" name="patient_result">
                               <option selected>选择</option>
