@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">再次输入会诊号 *</label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id_second" id="patient_id_second" class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" required />
+                        <input type="text" name="patient_id_second" id="patient_id_second" class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" oninput="checkPatientID()" required />
                     </div>
                 </div>
                 <div class="form-group">
@@ -32,13 +32,13 @@
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">再次输入门诊号 *</label>
                     <div class="col-sm-7">
-                        <input type="text" name="cash_id_second" id="cash_id_second" class="form-control" maxlength="30"  required />
+                        <input type="text" name="cash_id_second" id="cash_id_second" class="form-control" maxlength="30"  oninput="checkCashID()" required />
                 </div>
                 </div>
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-lable">姓名 *</label>                                                                 
                     <div class="col-sm-7">
-                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30" oninput="checkPatientID()" required />
+                        <input type="text" name="patient_name" id="patient_name" class="form-control" maxlength="30"  required />
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +83,7 @@
             } 
         }
 
-        function checkPatientID() {
+        function checkCashID() {
             if (document.getElementById('cash_id_first').value != document.getElementById('cash_id_second').value)
             {
                 alert('两次门诊号不一样，请重新输入');
