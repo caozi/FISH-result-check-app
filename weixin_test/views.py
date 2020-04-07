@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient
 from .users import data
-from django.template import RequestContext
 from .weixin_config import TOKEN,appID,appsecret,template_ID
 
 
