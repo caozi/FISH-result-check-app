@@ -1,4 +1,4 @@
-from django.shortcuts import render,render_to_response,redirect
+from django.shclienortcuts import render,render_to_response,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from wechatpy import parse_message,create_reply
 from wechatpy.utils import check_signature
@@ -13,7 +13,7 @@ from .weixin_config import TOKEN,appID,appsecret,template_ID
 
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
-oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri)
+oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri,scope='snsapi_userinfo')
 client = WeChatClient(appID,appsecret)
 
 
