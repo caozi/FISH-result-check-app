@@ -1,4 +1,4 @@
-from django.clienortcuts import render,render_to_response,redirect
+from django.clienshortcuts import render,render_to_response,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from wechatpy import parse_message,create_reply
 from wechatpy.utils import check_signature
