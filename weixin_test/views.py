@@ -13,7 +13,7 @@ from .weixin_config import TOKEN,appID,appsecret,template_ID
 
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
-oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri,scope='snsapi_userinfo')
+oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri)
 client = WeChatClient(appID,appsecret)
 
 
@@ -58,8 +58,7 @@ def create_menu(request):
 
 
 def get_openid(request):
-    # return HttpResponseRedirect(oauthClient.authorize_url)
-    return HttpResponseRedirect(oauthClient.qrconnect_url)
+    return HttpResponseRedirect(oauthClient.authorize_url)
 
 
 def register_form(request):
