@@ -74,7 +74,7 @@ def query_form(request):
     return render_to_response('weixin/query_form.html')
     
 
-@csrf_exempt
+#@csrf_exempt
 def register(request):
     if request.method == "POST":
         p_id = request.POST.get('patient_id_first','')
