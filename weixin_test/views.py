@@ -58,7 +58,8 @@ def create_menu(request):
 
 
 def get_openid(request):
-    return HttpResponseRedirect(oauthClient.authorize_url)
+    # return HttpResponseRedirect(oauthClient.authorize_url)
+    return HttpResponseRedirect(oauthClient.qrconnect_url)
 
 
 def register_form(request):
