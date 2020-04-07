@@ -5,21 +5,17 @@ from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from wechatpy.replies import ArticlesReply
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient
-import json
 from .users import data
 from django.template import RequestContext
+from .weixin_config import TOKEN,appID,appsecret,template_ID
 
-# test account information
-TOKEN = 'hellowx'
-appID = 'wx6c11f5e4bbd229bd'
-appsecret = '1605f2bca63385b87ec35daffa2227ea'
+
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
 oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri)
 client = WeChatClient(appID,appsecret)
-template_ID = 'TjBLnJnwHZCMqFk9vcbRANyUOKTUIDownzX-eWoU_jk'
+
 
 
 @csrf_exempt
@@ -172,6 +168,7 @@ def admin_query(request):
         except Patient.DoesNotExist:
             return render_to_response('weixin/query_error.html')
     return HttpResponse('Data not received',content_type="text/plain")
+
 
 def send_message(template_ID,patient):
     data={
