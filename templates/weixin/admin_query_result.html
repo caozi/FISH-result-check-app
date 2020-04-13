@@ -14,7 +14,12 @@
                 <div class="form-group">
                     <label for="ID" class="col-sm-2 control-lable">会诊号 </label>
                     <div class="col-sm-7">
-                        <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{ patient.patient_id }} required />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" >HZ</span>
+                            </div>
+                            <input type="text" name="patient_id" id="patient_id" class="form-control" maxlength="30" placeholder="Disabled input" readonly class="form-control-plaintext" value = {{ patient.patient_id }} required />
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
