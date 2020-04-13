@@ -93,11 +93,7 @@ def register(request):
             send_message(template_ID,p)
             return HttpResponseRedirect('register_success/')
         else:
-            context_dict = {'patient_id':p_id,
-                            'patient_name':p_name,
-                            'patient_openID':p_openID,
-                            'patient_status':p_status
-                    }
+            context_dict = {'patient_id':p_id,}
             return render(request,'weixin/register_form_override.html',context_dict)
            
     return HttpResponse('Data not received',content_type="text/plain")
