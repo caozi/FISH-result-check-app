@@ -71,4 +71,15 @@
             </div>
         </div>
     </body>
+    <script type="text/javascript" language="JavaScript">
+        function checkPatientID() {
+            if (document.getElementById('patient_id_first').value != document.getElementById('patient_id_second').value)
+            {
+                alert('两次会诊号不一样，请重新输入');
+                document.getElementById('patient_id_first').value= '';
+                document.getElementById('patient_id_second').value = '';
+                document.getElementById('patient_id_first').focus();
+            }
+        }
+        </script>
 </html>

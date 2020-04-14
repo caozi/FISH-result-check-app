@@ -26,7 +26,7 @@
                         HZ
                       </div>
                       <div class="weui-cell__bd" >
-                          <input id="patient_id" class="weui-input" placeholder="填写会诊号" required/>
+                          <input name="patient_id" id="patient_id" class="weui-input" value = {{ patient.patient_id }} required/>
                       </div>
                     </div>
                     <div class="weui-cell weui-cell_active">
@@ -34,7 +34,7 @@
                           <label class="weui-label">姓名</label>
                         </div>
                       <div class="weui-cell__bd">
-                          <input id="patient_name" class="weui-input" placeholder="填写患者姓名" required/>
+                          <input name="patient_name" id="patient_name" class="weui-input" value = {{ patient.patient_name }} required/>
                       </div>
                     </div>
                     <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
@@ -55,7 +55,7 @@
                             <label class="weui-label">openID</label>
                           </div>
                         <div class="weui-cell__bd">
-                            <input id="patient_openID" class="weui-input" required />
+                            <input name="patient_openID" id="patient_openID" class="weui-input"  value = {{patient.patient_openID}} required />
                         </div>
                       </div>
                   </div>
