@@ -1,24 +1,48 @@
-<!doctype html>
-<html lang="en">
-  <head>
-      <!-- Required meta tags -->
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-  </head>
-      <body>
-      <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">查询结果</h4>
-            <p>会诊号:HZ{{ patient.patient_id }}</p>
-            <p>姓名:{{ patient.patient_name }}</p>
-            <p>状态:{{ patient.patient_status }}</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>查询结果</title>
+        <!-- 引入 WeUI CDN 链接 -->
+        <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
+    </head>
+    <body>
+        <form>
+    <div class="page">
+            <div class="weui-form">
+              <div class="weui-form__text-area">
+                <h2 class="weui-form__title">查询结果</h2>
+              </div>
+              <div class="weui-form__control-area">
+                    <div class="weui-form-preview">
+                        <div class="weui-form-preview__hd">
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">姓名</label>
+                                <em class="weui-form-preview__value">{{ patient.patient_name }}</em>
+                            </div>
+                        </div>
+                        <div class="weui-form-preview__bd">
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">会诊号</label>
+                                <span class="weui-form-preview__value">HZ{{ patient.patient_id }}</span>
+                            </div>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">状态</label>
+                                <span class="weui-form-preview__value">{{ patient.patient_status }}</span>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
     </div>
-          <!-- Optional JavaScript -->
-          <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-          <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+              </form>
+              <div class="weui-form__extra-area">
+                <div class="weui-footer">
+                  <p class="weui-footer__text">Copyright © 2020 天津市肿瘤医院病理科</p>
+                </div>
+              </div>
+            </div>
+        </div>
     </body>
 </html>
