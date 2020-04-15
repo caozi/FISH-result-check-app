@@ -8,7 +8,8 @@
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
       </head>
     <body>
-        <form action="/weixin/admin_query_override/" method="post">
+    <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
+        <form action="/weixin/admin_query_override/" method="post" id="form">
         <div class="page">
             <div class="weui-form">
               <div class="weui-form__text-area">
@@ -25,7 +26,7 @@
                         HZ
                       </div>
                       <div class="weui-cell__bd" >
-                          <input name="patient_id" id="patient_id" class="weui-input" value = {{ patient.patient_id }} required/>
+                          <input name="patient_id" id="patient_id" class="weui-input" value = {{ patient.patient_id }}  readonly/>
                       </div>
                     </div>
                     <div class="weui-cell weui-cell_active">
@@ -33,7 +34,7 @@
                           <label class="weui-label">姓名</label>
                         </div>
                       <div class="weui-cell__bd">
-                          <input name="patient_name" id="patient_name" class="weui-input" value = {{ patient.patient_name }} required/>
+                          <input name="patient_name" id="patient_name" class="weui-input" value = {{ patient.patient_name }}  readonly/>
                       </div>
                     </div>
                     <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
@@ -42,7 +43,7 @@
                         </div>
                         <div class="weui-cell__bd">
                             <select class="weui-select" id="patient_status" name="patient_status">
-                                <option selected>选择</option>
+                                <option selected>选择状态</option>
                               <option value="正在处理中">正在处理中</option>
                               <option value="请来报告中心取病理报告">请来报告中心取病理报告</option>
                               <option value="您已欠费，请来报告中心挂号补费">请来报告中心补费</option>
@@ -61,7 +62,7 @@
                 </div>
               </div>
               <div class="weui-form__opr-area">
-                  <button type="submit" class="weui-btn weui-btn_primary">修改</button>
+                  <button type="submit" class="weui-btn weui-btn_primary"id="modify">修改</button>
               </div>
               </form>
               <div class="weui-form__extra-area">
@@ -72,6 +73,29 @@
             </div>
         </div>
     </body>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                var $tooltips = $('.js_tooltips');
+                var $patient_status = $('#patient_status');
+                var $modify = $('#modify');
+
+
+                $modify.on('click', function(){
+                    if($patient_status.val() == "选择状态"){
+                        $('#form').submit(false);
+                        $tooltips.text("请选择状态");
+                        $tooltips.fadeIn(100);
+                        setTimeout(function () {
+                            $tooltips.fadeOut(100);
+                         }, 2000);
+                         $patient_name.focus();
+                    }else{
+                        $('#form')[0].submit(true);
+                    }
+                });
+        });
+      </script>
 </html>
 
 
