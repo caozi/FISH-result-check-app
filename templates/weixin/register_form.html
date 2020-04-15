@@ -6,10 +6,11 @@
         <title>会诊登记</title>
         <!-- 引入 WeUI CDN 链接 -->
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
-        <link rel="stylesheet" type="text/css" href="HZ.css" />
-      </head>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    </head>
     <body>
-        <form action="/weixin/register/" method="post">
+        <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
+        <form action="/weixin/register/" method="post" id="form">
         <div class="page">
             <div class="weui-form">
               <div class="weui-form__text-area">
@@ -37,7 +38,7 @@
                         HZ
                       </div>
                       <div class="weui-cell__bd">
-                          <input name="patient_id_second" id="patient_id_second" class="weui-input" placeholder="再次填写会诊号" required/>
+                          <input name="patient_id_second" id="patient_id_second" class="weui-input" placeholder="再次填写会诊号" />
                       </div>
                     </div>
                     <div class="weui-cell weui-cell_active">
@@ -45,22 +46,21 @@
                           <label class="weui-label">姓名</label>
                         </div>
                       <div class="weui-cell__bd">
-                          <input name="patient_name" id="patient_name" class="weui-input" placeholder="填写患者姓名" onfocus="checkPatientID()" required/>
-                      </div>
+                          <input name="patient_name" id="patient_name" class="weui-input" placeholder="填写患者姓名"  /></div>
                     </div>
                     <div class="weui-cell weui-cell_active" style="display: none;">
                         <div class="weui-cell__hd">
                             <label class="weui-label">openID</label>
                           </div>
                         <div class="weui-cell__bd">
-                            <input name="patient_openID" id="patient_openID" class="weui-input" value = {{openid}} required />
+                            <input name="patient_openID" id="patient_openID" class="weui-input" value = {{openid}}  />
                         </div>
                       </div>
                   </div>
                 </div>
               </div>
               <div class="weui-form__opr-area">
-                  <button type="submit" class="weui-btn weui-btn_primary">登记</button>
+                  <button type="submit" class="weui-btn weui-btn_primary" id="register">登记</button>
               </div>
               </form>
               <div class="weui-form__extra-area">
@@ -71,15 +71,41 @@
             </div>
         </div>
     </body>
-    <script type="text/javascript" language="JavaScript">
-        function checkPatientID() {
-            if (document.getElementById('patient_id_first').value != document.getElementById('patient_id_second').value)
-            {
-                alert('两次会诊号不一样，请重新输入');
-                document.getElementById('patient_id_first').value= '';
-                document.getElementById('patient_id_second').value = '';
-                document.getElementById('patient_id_first').focus();
-            }
-        }
-        </script>
+        <script type="text/javascript">
+            $(function(){
+                var $tooltips = $('.js_tooltips');
+                var $patient_id_first = $('#patient_id_first');
+                var $patient_id_second = $('#patient_id_second');
+                var $patient_name = $('#patient_name');
+                var $register = $('#register');
+
+                $patient_name.on('focus', function(){
+                    if($patient_id_first.val() != $patient_id_second.val()){
+                        $tooltips.text("两次输入会诊号不一致");
+                        $tooltips.fadeIn(100);
+                        setTimeout(function () {
+                            $tooltips.fadeOut(100);
+                         }, 2000);
+                         $patient_id_first.val('').focus();
+                         $patient_id_second.val('');
+                    }
+                });
+
+
+                $register.on('click', function(){
+                    if($patient_name.val()){
+                        $('#form')[0].submit(true);
+                    }else{
+                        $('#form').submit(false);
+                        $tooltips.text("请输入患者姓名");
+                        $tooltips.fadeIn(100);
+                        setTimeout(function () {
+                            $tooltips.fadeOut(100);
+                         }, 2000);
+                         $patient_name.focus();
+                    }
+                });
+        });
+      </script>
+
 </html>

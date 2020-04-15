@@ -6,9 +6,11 @@
         <title>登录</title>
         <!-- 引入 WeUI CDN 链接 -->
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
     <body>
-        <form action="/weixin/login/" method="post">
+        <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
+        <form action="/weixin/login/" method="post" id="form">
         <div class="page">
             <div class="weui-form">
               <div class="weui-form__text-area">
@@ -22,7 +24,7 @@
                           <label class="weui-label">用户名</label>
                       </div>
                       <div class="weui-cell__bd" >
-                          <input name="user_name" id="user_name" class="weui-input" placeholder="填写用户名" required/>
+                          <input name="user_name" id="user_name" class="weui-input" placeholder="填写用户名" />
                       </div>
                     </div>
                     <div class="weui-cell weui-cell_active">
@@ -30,14 +32,14 @@
                           <label class="weui-label">密码</label>
                       </div>
                       <div class="weui-cell__bd">
-                          <input name="user_password" id="user_password" type="password" class="weui-input" placeholder="填写密码" required/>
+                          <input name="user_password" id="user_password" type="password" class="weui-input" placeholder="填写密码" />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="weui-form__opr-area">
-                  <button type="submit" class="weui-btn weui-btn_primary">登录</button>
+                  <button type="submit" class="weui-btn weui-btn_primary" id="login">登录</button>
               </div>
               </form>
               <div class="weui-form__extra-area">
@@ -48,5 +50,44 @@
             </div>
         </div>
     </body>
+    <script type="text/javascript">
+            $(function(){
+                var $tooltips = $('.js_tooltips');
+                var $user_name = $('#user_name');
+                var $user_password = $('#user_password');
+                var $login = $('#login');
+
+                $user_password.on('focus', function(){
+                    if($user_name.val()){
+                         return;
+                    }else{
+                        $tooltips.text("请输入用户名");
+                        $tooltips.fadeIn(100);
+                        setTimeout(function () {
+                            $tooltips.fadeOut(100);
+                         }, 2000);
+                         $user_name.focus();
+
+                    }
+                });
+
+
+                $login.on('click', function(){
+                    if($user_password.val()){
+                        $('#form')[0].submit();
+                    }else{
+                         $('#form').submit(function(evt){
+                            evt.preventDefault();
+                        });
+                        $tooltips.text("请输入密码");
+                        $tooltips.fadeIn(100);
+                        setTimeout(function () {
+                            $tooltips.fadeOut(100);
+                         }, 2000);
+                         $user_password.focus();
+                    }
+                });
+        });
+      </script>
 </html>
 
