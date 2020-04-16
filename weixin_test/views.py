@@ -104,10 +104,7 @@ def register(request):
 def query(request):
     if request.method == "POST":
         p_id = request.POST.get("patient_id",'')
-        try:
-            p = Patient.objects.get(patient_id = p_id)
-        except Patient.DoesNotExist:
-            return render_to_response('weixin/query_error.html')
+        p = Patient.objects.get(patient_id = p_id)
         return render(request,'weixin/query_result.html',{'patient':p})
 
 def register_success(request):
