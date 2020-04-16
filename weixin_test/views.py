@@ -9,6 +9,7 @@ from wechatpy.oauth import WeChatOAuth
 from .models import Patient
 from .users import data
 from .weixin_config import TOKEN,appID,appsecret,template_ID
+from django.http import JsonResponse
 
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
@@ -192,5 +193,17 @@ def admin_query_override(request):
         p.save()
         send_message(template_ID,p)
         return render_to_response('weixin/admin_query_success.html')
-    return HttpResponse('Data not received',content_type="text/plain") 
+    return HttpResponse('Data not received',content_type="text/plain")
+
+
+def check_patient_ID_exist(request):
+    p_id = request.GET.get('patient_id', None)
+    data = {}
+    try:
+        _ = Patient.objects.get(patient_id=p_id)
+    except Patient.DoesNotExist:
+        data['exist'] = False
+    else:
+        data['exist'] = True
+    return JsonResponse(data)
 
