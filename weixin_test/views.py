@@ -198,12 +198,11 @@ def admin_query_override(request):
 
 def check_patient_ID_exist(request):
     p_id = request.GET.get('patient_id', None)
-    data = {}
     try:
         _ = Patient.objects.get(patient_id=p_id)
     except Patient.DoesNotExist:
-        data['exist'] = false
+        data = {}
     else:
-        data['exist'] = true
+        data = {'exist': True}
     return JsonResponse(data)
 
