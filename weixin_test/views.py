@@ -209,9 +209,10 @@ def check_patient_ID_exist(request):
 def check_user_name(request):
     user_name = request.GET.get('user_name', None)
     try:
-        if user_name in user_data.keys():
-            data = {'exist': True}
+        _ = user_data[user_name]
     except:
         data = {}
+    else:
+        data = {'exist': True}
     return  JsonResponse(data)
 
