@@ -63,13 +63,15 @@
                             if ((data.exist)) {
                                 $('#form')[0].submit();
                             }else{
-                                $('#form')[0].submit(false);
+                                $('#form').submit(function(evt){
+                                    evt.preventDefault();
+                                });
                                 $tooltips.text("会诊号不存在，请检查会诊号");
                                 $tooltips.fadeIn(100);
                                 setTimeout(function () {
                                     $tooltips.fadeOut(100);
                                 }, 2000);
-                                $patient_id_first.val('').focus();
+                                $patient_id.val('').focus();
                             }
                         }
                     });
