@@ -51,10 +51,30 @@
                 var $patient_id = $('#patient_id');
                 var $check = $('#check');
 
-
                 $check.on('click', function(){
                     if($patient_id.val()){
-                        $('#form')[0].submit();
+                        $.ajax({
+                        url: '/weixin/check_patient_id/',
+                        data: {
+                            'patient_id': $patient_id.val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if ((data.exist)) {
+                                $('#form')[0].submit();
+                            }else{
+                                $tooltips.text("会诊号不存在，请检查会诊号");
+                                $tooltips.fadeIn(100);
+                                setTimeout(function () {
+                                    $tooltips.fadeOut(100);
+                                }, 2000);
+                                $('#form').submit(function(evt){
+                                    evt.preventDefault();
+                                });
+                                $patient_id_first.val('').focus();
+                            }
+                        }
+                    });
                     }else{
                          $('#form').submit(function(evt){
                             evt.preventDefault();
