@@ -202,8 +202,8 @@ def check_patient_ID_exist(request):
     try:
         _ = Patient.objects.get(patient_id=p_id)
     except Patient.DoesNotExist:
-        data['exist'] = False
+        data['exist'] = false
     else:
-        data['exist'] = True
+        data['exist'] = true
     return JsonResponse(data)
 
