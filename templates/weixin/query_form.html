@@ -63,14 +63,14 @@
                             if ((data.exist)) {
                                 $('#form')[0].submit();
                             }else{
+                                $('#form').submit(function(evt){
+                                    evt.preventDefault();
+                                });
                                 $tooltips.text("会诊号不存在，请检查会诊号");
                                 $tooltips.fadeIn(100);
                                 setTimeout(function () {
                                     $tooltips.fadeOut(100);
                                 }, 2000);
-                                $('#form').submit(function(evt){
-                                    evt.preventDefault();
-                                });
                                 $patient_id_first.val('').focus();
                             }
                         }
