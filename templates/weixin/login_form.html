@@ -59,7 +59,25 @@
 
                 $user_password.on('focus', function(){
                     if($user_name.val()){
-                         return;
+                         $.ajax({
+                             url: '/weixin/check_user_name/',
+                             data: {
+                                'user_name': $user_name.val()
+                             },
+                             dataType: 'json',
+                             success: function (data) {
+                             if ((data.exist)) {
+                                 return;
+                             }else{
+                                 $tooltips.text("用户不存在，请检查用户名");
+                                 $tooltips.fadeIn(100);
+                                 setTimeout(function () {
+                                     $tooltips.fadeOut(100);
+                                 }, 2000);
+                                 $user_name.val('').focus();
+                             }
+                         }
+                    });
                     }else{
                         $tooltips.text("请输入用户名");
                         $tooltips.fadeIn(100);
@@ -67,7 +85,6 @@
                             $tooltips.fadeOut(100);
                          }, 2000);
                          $user_name.focus();
-
                     }
                 });
 

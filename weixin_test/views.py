@@ -7,7 +7,7 @@ from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient
-from .users import data
+from .users import user_data
 from .weixin_config import TOKEN,appID,appsecret,template_ID
 from django.http import JsonResponse
 
@@ -143,7 +143,7 @@ def login(request):
         user_name = request.POST.get('user_name','')
         user_password = request.POST.get('user_password','')
         try:
-            if data[user_name] == user_password:
+            if user_data[user_name] == user_password:
                 return render_to_response('weixin/admin_query_form.html')
             else:
                 return render_to_response('weixin/login_error.html')
@@ -205,4 +205,13 @@ def check_patient_ID_exist(request):
     else:
         data = {'exist': True}
     return JsonResponse(data)
+
+def check_user_name(request):
+    user_name = request.GET('user_name', None)
+    try:
+        if user_name in user_data.keys():
+            data = {'exist': True}
+    except:
+        data = {}
+    return  JsonResponse(data)
 

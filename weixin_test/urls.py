@@ -17,4 +17,5 @@ urlpatterns = [
         path('admin_query/', views.admin_query, name='admin_query'),
         path('admin_query_override/', views.admin_query_override, name='admin_query_override'),
         path('check_patient_id/', views.check_patient_ID_exist, name='check_patient_id'),
+        path('check_user_name/', views.check_user_name, name='check_user_name'),
 ]
