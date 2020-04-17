@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
     </head>
     <body>
-        <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
         <form action="/weixin/register/" method="post" id="form" onsubmit="return false">
             <div class="page">
                 <div class="weui-form">
@@ -26,7 +25,7 @@
                                         HZ
                                     </div>
                                     <div class="weui-cell__bd" >
-                                        <input name="patient_id_first" id="patient_id_first" class="weui-input" placeholder="填写会诊号" required/>
+                                        <input name="patient_id_first" id="patient_id_first" class="weui-input" placeholder="填写会诊号" />
                                     </div>
                                 </div>
                                 <div class="weui-cell weui-cell_active">
@@ -68,6 +67,15 @@
                     </div>
                 </div>
             </div>
+            <!--BEGIN warn toast-->
+            <div id="toast" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                    <p class="weui-toast__content" id="warn_tip"></p>
+                </div>
+            </div>
+            <!--end warn toast-->
             <!-- loading toast -->
             <div id="loadingToast" style="display: none;">
                 <div class="weui-mask_transparent"></div>
@@ -76,12 +84,14 @@
                     <p class="weui-toast__content">会诊号校验中</p>
                 </div>
             </div>
+            <!--end toast-->
         </form>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
         <script type="text/javascript">
             $(function(){
-                var $tooltips = $('.js_tooltips');
+                var $warn_tip = $('#warn_tip');
+                var $toast = $('#toast');
                 var $patient_id_first = $('#patient_id_first');
                 var $patient_id_second = $('#patient_id_second');
                 var $patient_name = $('#patient_name');
@@ -100,10 +110,10 @@
                         dataType: 'json',
                         success: function (data) {
                             if ((data.exist)) {
-                                $tooltips.text("会诊号已经存在，请检查会诊号");
-                                $tooltips.fadeIn(100);
+                                $toast.text("会诊号已经存在");
+                                $toast.fadeIn(100);
                                 setTimeout(function () {
-                                    $tooltips.fadeOut(100);
+                                    $toast.fadeOut(100);
                                 }, 2000);
                                 $patient_id_first.val('').focus();
                             }
@@ -113,10 +123,10 @@
                         }
                     });
                     }else{
-                        $tooltips.text("请输入会诊号");
-                        $tooltips.fadeIn(100);
+                        $warn_tip.text("请输入会诊号");
+                        $toast.fadeIn(100);
                         setTimeout(function () {
-                            $tooltips.fadeOut(100);
+                            $toast.fadeOut(100);
                          }, 2000);
                          $patient_id_first.val('').focus();
                     }
@@ -125,10 +135,10 @@
 
                 $patient_name.on('focus', function(){
                     if($patient_id_first.val() != $patient_id_second.val()){
-                        $tooltips.text("两次输入会诊号不一致");
-                        $tooltips.fadeIn(100);
+                        $warn_tip.text("会诊号不一致");
+                        $toast.fadeIn(100);
                         setTimeout(function () {
-                            $tooltips.fadeOut(100);
+                            $toast.fadeOut(100);
                          }, 2000);
                          $patient_id_first.val('').focus();
                          $patient_id_second.val('');
@@ -141,10 +151,10 @@
                         $('#form')[0].submit(true);
                     }else{
                         $('#form').submit(false);
-                        $tooltips.text("请输入患者姓名");
-                        $tooltips.fadeIn(100);
+                        $warn_tip.text("请输入姓名");
+                        $toast.fadeIn(100);
                         setTimeout(function () {
-                            $tooltips.fadeOut(100);
+                            $toast.fadeOut(100);
                          }, 2000);
                          $patient_name.focus();
                     }
