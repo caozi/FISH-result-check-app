@@ -74,9 +74,6 @@
                                 $('#form')[0].submit();
                                 return true;
                             }else{
-                                $('#form').submit(function(evt){
-                                    evt.preventDefault();
-                                });
                                 $tooltips.text("会诊号不存在，请检查会诊号");
                                 $tooltips.fadeIn(100);
                                 setTimeout(function () {
@@ -91,9 +88,6 @@
                         }
                     });
                     }else{
-                         $('#form').submit(function(evt){
-                            evt.preventDefault();
-                        });
                         $tooltips.text("请输入会诊号");
                         $tooltips.fadeIn(100);
                         setTimeout(function () {
