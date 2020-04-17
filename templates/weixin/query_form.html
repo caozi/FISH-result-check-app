@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
     </head>
     <body>
-        <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
         <form action="/weixin/query/" method="post" id="form" onsubmit="return false">
             <div class="page">
                 <div class="weui-form">
@@ -42,6 +41,15 @@
                     </div>
                 </div>
             </div>
+            <!--BEGIN warn toast-->
+            <div id="toast" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                    <p class="weui-toast__content" id="warn_tip"></p>
+                </div>
+            </div>
+            <!--end warn toast-->
             <!-- loading toast -->
             <div id="loadingToast" style="display: none;">
                 <div class="weui-mask_transparent"></div>
@@ -50,15 +58,17 @@
                     <p class="weui-toast__content">会诊号校验中</p>
                 </div>
             </div>
+            <!--end toast-->
         </form>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script type="text/javascript">
       $(function(){
-                var $tooltips = $('.js_tooltips');
                 var $patient_id = $('#patient_id');
                 var $check = $('#check');
+                var $toast = $('#toast');
                 var $loadingToast = $('#loadingToast');
+                var $warn_tip = $('#warn_tip');
 
                 $check.on('click', function(){
                     if($patient_id.val()){
@@ -74,10 +84,10 @@
                                 $('#form')[0].submit();
                                 return true;
                             }else{
-                                $tooltips.text("会诊号不存在，请检查会诊号");
-                                $tooltips.fadeIn(100);
+                                $warn_tip.text("会诊号不存在，请检查会诊号");
+                                $toast.fadeIn(100);
                                 setTimeout(function () {
-                                    $tooltips.fadeOut(100);
+                                    $toast.fadeOut(100);
                                 }, 2000);
                                 $patient_id.val('').focus();
                                 return false;
@@ -88,10 +98,10 @@
                         }
                     });
                     }else{
-                        $tooltips.text("请输入会诊号");
-                        $tooltips.fadeIn(100);
+                        $warn_tip.text("请输入会诊号");
+                        $toast.fadeIn(100);
                         setTimeout(function () {
-                            $tooltips.fadeOut(100);
+                            $toast.fadeOut(100);
                          }, 2000);
                          $patient_id.focus();
                          return false;
