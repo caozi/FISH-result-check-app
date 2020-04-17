@@ -10,65 +10,65 @@
     <body>
         <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
         <form action="/weixin/register/" method="post" id="form">
-        <div class="page">
-            <div class="weui-form">
-              <div class="weui-form__text-area">
-                <h2 class="weui-form__title">会诊信息登记</h2>
-              </div>
-              <div class="weui-form__control-area">
-                <div class="weui-cells__group weui-cells__group_form">
-                  <div class="weui-cells weui-cells_form">
-                    <div class="weui-cell weui-cell_active">
-                      <div class="weui-cell__hd">
-                          <label class="weui-label">会诊号</label>
-                      </div>
-                      <div class="weui-cell__hd" id='HZ'>
-                        HZ
-                      </div>
-                      <div class="weui-cell__bd" >
-                          <input name="patient_id_first" id="patient_id_first" class="weui-input" placeholder="填写会诊号" required/>
-                      </div>
+            <div class="page">
+                <div class="weui-form">
+                    <div class="weui-form__text-area">
+                        <h2 class="weui-form__title">会诊信息登记</h2>
                     </div>
-                    <div class="weui-cell weui-cell_active">
-                      <div class="weui-cell__hd">
-                          <label class="weui-label">会诊号</label>
-                      </div>
-                      <div class="weui-cell__hd" id='HZ'>
-                        HZ
-                      </div>
-                      <div class="weui-cell__bd">
-                          <input name="patient_id_second" id="patient_id_second" class="weui-input" placeholder="再次填写会诊号" />
-                      </div>
-                    </div>
-                    <div class="weui-cell weui-cell_active">
-                      <div class="weui-cell__hd">
-                          <label class="weui-label">姓名</label>
+                    <div class="weui-form__control-area">
+                        <div class="weui-cells__group weui-cells__group_form">
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell weui-cell_active">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">会诊号</label>
+                                    </div>
+                                    <div class="weui-cell__hd" id='HZ'>
+                                        HZ
+                                    </div>
+                                    <div class="weui-cell__bd" >
+                                        <input name="patient_id_first" id="patient_id_first" class="weui-input" placeholder="填写会诊号" required/>
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell_active">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">会诊号</label>
+                                    </div>
+                                    <div class="weui-cell__hd" id='HZ'>
+                                        HZ
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="patient_id_second" id="patient_id_second" class="weui-input" placeholder="再次填写会诊号" />
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell_active">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">姓名</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="patient_name" id="patient_name" class="weui-input" placeholder="填写患者姓名"  /></div>
+                                </div>
+                                <div class="weui-cell weui-cell_active" style="display: none;">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">openID</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="patient_openID" id="patient_openID" class="weui-input" value = {{openid}}  />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      <div class="weui-cell__bd">
-                          <input name="patient_name" id="patient_name" class="weui-input" placeholder="填写患者姓名"  /></div>
                     </div>
-                    <div class="weui-cell weui-cell_active" style="display: none;">
-                        <div class="weui-cell__hd">
-                            <label class="weui-label">openID</label>
-                          </div>
-                        <div class="weui-cell__bd">
-                            <input name="patient_openID" id="patient_openID" class="weui-input" value = {{openid}}  />
+                    <div class="weui-form__opr-area">
+                        <button type="submit" class="weui-btn weui-btn_primary" id="register">登记</button>
+                    </div>
+                    <div class="weui-form__extra-area">
+                        <div class="weui-footer">
+                            <p class="weui-footer__text">Copyright © 2020 天津市肿瘤医院病理科</p>
                         </div>
-                      </div>
-                  </div>
+                    </div>
                 </div>
-              </div>
-              <div class="weui-form__opr-area">
-                  <button type="submit" class="weui-btn weui-btn_primary" id="register">登记</button>
-              </div>
-              </form>
-              <div class="weui-form__extra-area">
-                <div class="weui-footer">
-                  <p class="weui-footer__text">Copyright © 2020 天津市肿瘤医院病理科</p>
-                </div>
-              </div>
             </div>
-        </div>
+        </form>
     </body>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript">
