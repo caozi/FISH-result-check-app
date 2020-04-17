@@ -82,22 +82,15 @@ def register(request):
         p_name = request.POST.get('patient_name','')
         p_openID = request.POST.get('patient_openID','')
         p_status = "正在处理中"
-        try:
-            _ = Patient.objects.get(patient_id = p_id)
-        except Patient.DoesNotExist:
-            p = Patient(patient_id = p_id,
+        p = Patient(patient_id=p_id,
                     patient_name=p_name,
-                    patient_openID = p_openID,
-                    patient_status = p_status
+                    patient_openID=p_openID,
+                    patient_status=p_status
                 )
-            p.save()
-            send_message(template_ID,p)
-            return HttpResponseRedirect('register_success/')
-        else:
-            context_dict = {'patient_id':p_id,}
-            return render(request,'weixin/register_form_override.html',context_dict)
-           
-    return HttpResponse('Data not received',content_type="text/plain")
+        p.save()
+        send_message(template_ID, p)
+        return HttpResponseRedirect('register_success/')
+    return HttpResponse('Data not received', content_type="text/plain")
 
 
 @csrf_exempt
@@ -110,25 +103,6 @@ def query(request):
 def register_success(request):
     return render_to_response('weixin/register_success.html')
 
-@csrf_exempt
-def register_override(request):
-    if request.method == "POST":                                                                                                                
-        p_id = request.POST.get('patient_id','')
-        p_name = request.POST.get('patient_name','')
-        p_openID = request.POST.get('patient_openID','')
-        p_status = "正在处理中"
-        p = Patient.objects.get(patient_id = p_id)
-        p.delete()
-        p = Patient(patient_id = p_id,
-                patient_name=p_name,
-                patient_openID = p_openID,
-                patient_status = p_status
-             )
-        p.save()
-        send_message(template_ID,p)
-        return HttpResponseRedirect('register_success/')
-    return HttpResponse('Data not received',content_type="text/plain")  
-
 
 def login_form(request):
     return render_to_response('weixin/login_form.html')
@@ -137,58 +111,54 @@ def login_form(request):
 @csrf_exempt
 def login(request):
     if request.method == "POST":
-        user_name = request.POST.get('user_name','')
-        user_password = request.POST.get('user_password','')
+        user_name = request.POST.get('user_name', '')
+        user_password = request.POST.get('user_password', '')
         if user_data[user_name] == user_password:
             return render_to_response('weixin/admin_query_form.html')
         else:
             return render_to_response('weixin/login_error.html')
-
-        
-        
-           
-    return HttpResponse('Data not received',content_type="text/plain")
+    return HttpResponse('Data not received', content_type="text/plain")
 
 @csrf_exempt
 def admin_query(request):
     if request.method == 'POST':
-        p_id = request.POST.get('patient_id','')
+        p_id = request.POST.get('patient_id', '')
         try:
             p = Patient.objects.get(patient_id = p_id)
-            return render(request,'weixin/admin_query_result.html',{'patient':p})
+            return render(request, 'weixin/admin_query_result.html',{'patient':p})
         except Patient.DoesNotExist:
             return render_to_response('weixin/query_error.html')
-    return HttpResponse('Data not received',content_type="text/plain")
+    return HttpResponse('Data not received', content_type="text/plain")
 
 
-def send_message(template_ID,patient):
-    data={
-          'patient_id':{'value':patient.patient_id},
-          'patient_name':{'value':patient.patient_name},
-          'patient_status':{'value':patient.patient_status,'color':'#B22222'}
+def send_message(template_ID, patient):
+    data = {
+          'patient_id': {'value': patient.patient_id},
+          'patient_name': {'value': patient.patient_name},
+          'patient_status': {'value': patient.patient_status, 'color': '#B22222'}
         }
-    client.message.send_template(patient.patient_openID,template_ID,data)
+    client.message.send_template(patient.patient_openID, template_ID, data)
 
 
 
 @csrf_exempt
 def admin_query_override(request):
     if request.method == "POST":                                                                                                                
-        p_id = request.POST.get('patient_id','')
-        p_name = request.POST.get('patient_name','')
-        p_openID = request.POST.get('patient_openID','')
-        p_status = request.POST.get('patient_status','')
-        p = Patient.objects.get(patient_id = p_id)
+        p_id = request.POST.get('patient_id', '')
+        p_name = request.POST.get('patient_name', '')
+        p_openID = request.POST.get('patient_openID', '')
+        p_status = request.POST.get('patient_status', '')
+        p = Patient.objects.get(patient_id=p_id)
         p.delete()
-        p = Patient(patient_id = p_id,
+        p = Patient(patient_id=p_id,
                     patient_name=p_name,
-                    patient_openID = p_openID,
-                    patient_status = p_status
+                    patient_openID=p_openID,
+                    patient_status=p_status
              )
         p.save()
-        send_message(template_ID,p)
+        send_message(template_ID, p)
         return render_to_response('weixin/admin_query_success.html')
-    return HttpResponse('Data not received',content_type="text/plain")
+    return HttpResponse('Data not received', content_type="text/plain")
 
 
 def check_patient_ID_exist(request):
@@ -209,5 +179,5 @@ def check_user_name(request):
         data = {}
     else:
         data = {'exist': True}
-    return  JsonResponse(data)
+    return JsonResponse(data)
 

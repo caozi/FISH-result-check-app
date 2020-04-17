@@ -8,7 +8,6 @@ urlpatterns = [
         path('register_form_after_oath/', views.register_form, name='register_form'),
         path('register/', views.register, name='register'),
         path('register/register_success/', views.register_success, name='register_success'),
-        path('register_override/', views.register_override,name='register_override'),
         path('register_override/register_success/', views.register_success, name='register_override_success'),
         path('query_form/', views.query_form, name='query_form'),
         path('query/', views.query, name='query'),
