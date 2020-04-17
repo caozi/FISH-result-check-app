@@ -110,7 +110,7 @@
                         dataType: 'json',
                         success: function (data) {
                             if ((data.exist)) {
-                                $toast.text("会诊号已经存在");
+                                $warn_tip.text("会诊号已经存在");
                                 $toast.fadeIn(100);
                                 setTimeout(function () {
                                     $toast.fadeOut(100);
