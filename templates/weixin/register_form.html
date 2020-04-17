@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="weui-toptips weui-toptips_warn js_tooltips"></div>
-        <form action="/weixin/register/" method="post" id="form">
+        <form action="/weixin/register/" method="post" id="form" onsubmit="return false">
             <div class="page">
                 <div class="weui-form">
                     <div class="weui-form__text-area">
@@ -68,6 +68,14 @@
                     </div>
                 </div>
             </div>
+            <!-- loading toast -->
+            <div id="loadingToast" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-loading weui-icon_toast"></i>
+                    <p class="weui-toast__content">会诊号校验中</p>
+                </div>
+            </div>
         </form>
     </body>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -78,10 +86,13 @@
                 var $patient_id_second = $('#patient_id_second');
                 var $patient_name = $('#patient_name');
                 var $register = $('#register');
+                var $loadingToast = $('#loadingToast');
 
                 $patient_id_second.on('focus',function(){
                     var patient_id = $patient_id_first.val();
-                    $.ajax({
+                    if(patient_id){
+                        $loadingToast.show();
+                        $.ajax({
                         url: '/weixin/check_patient_id/',
                         data: {
                             'patient_id': patient_id
@@ -96,8 +107,20 @@
                                 }, 2000);
                                 $patient_id_first.val('').focus();
                             }
+                        },
+                        complete: function(){
+                            $loadingToast.hide();
                         }
                     });
+                    }else{
+                        $tooltips.text("请输入会诊号");
+                        $tooltips.fadeIn(100);
+                        setTimeout(function () {
+                            $tooltips.fadeOut(100);
+                         }, 2000);
+                         $patient_id_first.val('').focus();
+                    }
+
                 });
 
                 $patient_name.on('focus', function(){
