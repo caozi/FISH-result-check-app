@@ -11,9 +11,9 @@ class Patient(models.Model):
         return self.patient_id
 
 
-# class Doctors(models.Model):
-#     doctor_name = models.CharField(max_length=200)
-#     doctor_password = models.CharField(max_length=200)
-#
-#     def __str__(self):
-#         return self.doctor_name
+class Doctors(models.Model):
+    doctor_name = models.CharField(max_length=200)
+    doctor_password = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.doctor_name
