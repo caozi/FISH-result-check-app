@@ -6,8 +6,7 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.oauth import WeChatOAuth
-from .models import Patient
-from .users import user_data
+from .models import Patient,User
 from .weixin_config import TOKEN,appID,appsecret,template_ID
 from django.http import JsonResponse
 
@@ -113,7 +112,8 @@ def login(request):
     if request.method == "POST":
         user_name = request.POST.get('user_name', '')
         user_password = request.POST.get('user_password', '')
-        if user_data[user_name] == user_password:
+        user = User.objects.get(user_name=user_name)
+        if user.user_password == user_password:
             return render_to_response('weixin/admin_query_form.html')
         else:
             return render_to_response('weixin/login_error.html')
@@ -174,7 +174,7 @@ def check_patient_ID_exist(request):
 def check_user_name(request):
     user_name = request.GET.get('user_name', None)
     try:
-        _ = user_data[user_name]
+        _ = User.objects.get(user_name=user_name)
     except:
         data = {}
     else:

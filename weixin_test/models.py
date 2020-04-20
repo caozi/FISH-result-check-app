@@ -10,6 +10,13 @@ class Patient(models.Model):
     def __str__(self):
         return self.patient_id
 
+class User(models.Model):
+    user_name = models.CharField(max_length=200)
+    user_password = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user_name
+
 
 
 
