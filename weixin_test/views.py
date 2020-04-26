@@ -162,6 +162,7 @@ def admin_query_override(request):
     return HttpResponse('Data not received', content_type="text/plain")
 
 
+
 def check_patient_ID_exist(request):
     p_id = request.GET.get('patient_id', None)
     try:
@@ -172,6 +173,7 @@ def check_patient_ID_exist(request):
         data = {'exist': True}
     return JsonResponse(data)
 
+
 def check_user_name(request):
     user_name = request.GET.get('user_name', None)
     try:
@@ -181,4 +183,9 @@ def check_user_name(request):
     else:
         data = {'exist': True}
     return JsonResponse(data)
+
+
+def back_to_admin_query(request):
+    patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
+    return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
 
