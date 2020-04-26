@@ -15,7 +15,7 @@
                     </div>
                      <div class="weui-cells">
                          {% for patient in patients_not_informed %}
-                             <a class="weui-cell  weui-cell_access" href="adminQueryResult({{patient.patient_id}})">
+                             <a class="weui-cell  weui-cell_access" href="javascript:adminQueryResult({{patient.patient_id}})">
                                  <div class="weui-cell__bd">
                                      <p>HZ{{patient.patient_id}}：{{patient.patient_name}}</p>
                                  </div>
