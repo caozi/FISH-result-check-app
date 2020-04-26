@@ -43,7 +43,6 @@ def index(request):
         return HttpResponse('ERROR')
 
 
-
 def create_menu(request):
     client.menu.create({
         "button":[
@@ -114,7 +113,9 @@ def login(request):
         user_password = request.POST.get('user_password', '')
         user = Doctors.objects.get(doctor_name=user_name)
         if user.doctor_password == user_password:
-            return render_to_response('weixin/admin_query_form.html')
+            patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
+            return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
+            #return render_to_response('weixin/admin_query_form.html')
         else:
             return render_to_response('weixin/login_error.html')
     return HttpResponse('Data not received', content_type="text/plain")
@@ -125,7 +126,7 @@ def admin_query(request):
         p_id = request.POST.get('patient_id', '')
         try:
             p = Patient.objects.get(patient_id = p_id)
-            return render(request, 'weixin/admin_query_result.html',{'patient':p})
+            return render(request, 'weixin/admin_query_result.html', {'patient': p})
         except Patient.DoesNotExist:
             return render_to_response('weixin/query_error.html')
     return HttpResponse('Data not received', content_type="text/plain")
