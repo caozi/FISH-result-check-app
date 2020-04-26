@@ -15,7 +15,7 @@
                     </div>
                      <div class="weui-cells">
                          {% for patient in patients_not_informed %}
-                             <a class="weui-cell  weui-cell_access" href="javascript:">
+                             <a class="weui-cell  weui-cell_access" href="adminQueryResult({{patient.patient_id}})">
                                  <div class="weui-cell__bd">
                                      <p>HZ{{patient.patient_id}}：{{patient.patient_name}}</p>
                                  </div>
@@ -28,7 +28,21 @@
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script type="text/javascript">
-      </script>
+        function post(patient_id) {
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = "/weixin/admin_query/";
+
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'patient_id';
+            hiddenField.value = patient_id;
+            form.appendChild(hiddenField);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 </html>
 
 
