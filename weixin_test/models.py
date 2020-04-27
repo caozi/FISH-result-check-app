@@ -17,3 +17,11 @@ class Doctors(models.Model):
 
     def __str__(self):
         return self.doctor_name
+
+
+class Member(models.Model):
+    member_openID = models.CharField(unique=True, max_length=200)
+    member_name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.member_name

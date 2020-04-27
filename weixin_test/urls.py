@@ -13,6 +13,7 @@ urlpatterns = [
         path('query/', views.query, name='query'),
         path('login_form/', views.login_form, name='login_form'),
         path('login/', views.login, name='login'),
+        path('login_with_oath/', views.login_with_oath, name="login_with_oath"),
         path('back_to_admin_query/', views.back_to_admin_query, name='back_to_admin_query'),
         path('admin_query/', views.admin_query, name='admin_query'),
         path('admin_query_override/', views.admin_query_override, name='admin_query_override'),

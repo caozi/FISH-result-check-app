@@ -6,38 +6,40 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.oauth import WeChatOAuth
-from .models import Patient, Doctors
+from .models import Patient, Doctors, Member
 from .weixin_config import TOKEN,appID,appsecret,template_ID
 from django.http import JsonResponse
 
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
-oauthClient = WeChatOAuth(app_id=appID,secret=appsecret,redirect_uri=redirect_uri)
-client = WeChatClient(appID,appsecret)
+redirect_uri_member = "https://georgecaozi.pythonanywhere.com/weixin/login_with_oath"
+oauthClient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri)
+oauthClient_member = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
+client = WeChatClient(appID, appsecret)
 
 
 
 @csrf_exempt
 def index(request):
     if request.method == 'GET':      
-        signature = request.GET.get('signature','')
-        timestamp = request.GET.get('timestamp','')
-        nonce = request.GET.get('nonce','')
-        echostr = request.GET.get('echostr','')
+        signature = request.GET.get('signature', '')
+        timestamp = request.GET.get('timestamp', '')
+        nonce = request.GET.get('nonce', '')
+        echostr = request.GET.get('echostr', '')
         try:
-            check_signature(TOKEN,signature,timestamp,nonce)
+            check_signature(TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             echostr = 'error'
-        response = HttpResponse(echostr,content_type="text/plain")
+        response = HttpResponse(echostr, content_type="text/plain")
         return response
     elif request.method == 'POST':
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply('感谢关注病理科微信公众号测试号，病理结果会第一时间推送，请密切关注',msg)
+            reply = create_reply('感谢关注病理科微信公众号测试号，病理结果会第一时间推送，请密切关注', msg)
         elif msg.event == 'subscribe':
-            reply = create_reply('感谢关注病理科微信公众号测试号，点击登记菜单，填写病人信息，系统会第一时间推送病理报告状态，请密切关注',msg)
-        response = HttpResponse(reply.render(),content_type='application/xml')
+            reply = create_reply('感谢关注病理科微信公众号测试号，点击登记菜单，填写病人信息，系统会第一时间推送病理报告状态，请密切关注', msg)
+        response = HttpResponse(reply.render(), content_type='application/xml')
         return response
     else:
         return HttpResponse('ERROR')
@@ -45,10 +47,10 @@ def index(request):
 
 def create_menu(request):
     client.menu.create({
-        "button":[
-            {"type":"view","name":"登记","url":"http://georgecaozi.pythonanywhere.com/weixin/register_form/"},
-            {"type":"view","name":"查询","url":"http://georgecaozi.pythonanywhere.com/weixin/query_form"},
-            {"type":"view","name":"登录","url":"http://georgecaozi.pythonanywhere.com/weixin/login_form"}
+        "button": [
+            {"type": "view", "name": "登记", "url": "http://georgecaozi.pythonanywhere.com/weixin/register_form/"},
+            {"type": "view", "name": "查询", "url": "http://georgecaozi.pythonanywhere.com/weixin/query_form"},
+            {"type": "view", "name": "登录", "url": "http://georgecaozi.pythonanywhere.com/weixin/login_form"}
             ]
         }
             )
@@ -63,9 +65,9 @@ def register_form(request):
     if request.method == 'GET':
         code = request.GET['code']
         res = oauthClient.fetch_access_token(code=code)
-        params = {'openid':res['openid']}
+        params = {'openid': res['openid']}
     else:
-        params = {'openid':'error'}
+        params = {'openid': 'error'}
     return render_to_response('weixin/register_form.html', params)
 
 
@@ -103,7 +105,8 @@ def register_success(request):
 
 
 def login_form(request):
-    return render_to_response('weixin/login_form.html')
+    return HttpResponseRedirect(oauthClient_member.authorize_url)
+    #return render_to_response('weixin/login_form.html')
 
 
 @csrf_exempt
@@ -189,3 +192,13 @@ def back_to_admin_query(request):
     patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
     return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
 
+
+def login_with_oath(request):
+    code = request.GET['code']
+    res = oauthClient_member.fetch_access_token(code=code)
+    try:
+        _ = Member.objects.get(member_openID=res['openid'])
+        patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
+        return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
+    except:
+        return render_to_response('weixin/login_error.html')
