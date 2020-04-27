@@ -12,9 +12,11 @@ from django.http import JsonResponse
 
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
+redirect_uri_patient = "https://georgecaozi.pythonanywhere.com/weixin/patient_query"
 redirect_uri_member = "https://georgecaozi.pythonanywhere.com/weixin/login_with_oath"
 oauthClient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri)
 oauthClient_member = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
+oauthClient_patient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
 client = WeChatClient(appID, appsecret)
 
 
@@ -72,7 +74,8 @@ def register_form(request):
 
 
 def query_form(request):
-    return render_to_response('weixin/query_form.html')
+    return HttpResponseRedirect(oauthClient_patient.authorize_url)
+    #return render_to_response('weixin/query_form.html')
     
 
 @csrf_exempt
@@ -98,7 +101,8 @@ def query(request):
     if request.method == "POST":
         p_id = request.POST.get("patient_id",'')
         p = Patient.objects.get(patient_id = p_id)
-        return render(request,'weixin/query_result.html',{'patient':p})
+        return render(request, 'weixin/query_result.html',{'patient':p})
+
 
 def register_success(request):
     return render_to_response('weixin/register_success.html')
@@ -202,3 +206,13 @@ def login_with_oath(request):
         return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
     except:
         return render_to_response('weixin/login_error.html')
+
+
+def patient_query(request):
+    code = request.GET['code']
+    res = oauthClient_member.fetch_access_token(code=code)
+    try:
+        p = Patient.objects.get(patient_openID=res['openid'])
+        return render(request, 'weixin/query_result.html', {'patient': p})
+    except:
+        return render_to_response('weixin/query_error.html')
