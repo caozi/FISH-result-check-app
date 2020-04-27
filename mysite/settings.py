@@ -80,6 +80,9 @@ DATABASES = {
         'USER': 'georgecaozi',
         'PASSWORD':'caozi1992',
         'HOST':'georgecaozi.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': 'SET innodb_strict_mode=1',
+        },
     }
 }
 
