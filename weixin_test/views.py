@@ -16,7 +16,7 @@ redirect_uri_patient = "https://georgecaozi.pythonanywhere.com/weixin/patient_qu
 redirect_uri_member = "https://georgecaozi.pythonanywhere.com/weixin/login_with_oath"
 oauthClient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri)
 oauthClient_member = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
-oauthClient_patient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
+oauthClient_patient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_patient)
 client = WeChatClient(appID, appsecret)
 
 
