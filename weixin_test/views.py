@@ -7,7 +7,7 @@ from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient, Doctors, Member
-from .weixin_config import TOKEN,appID,appsecret,template_ID
+from .weixin_config import TOKEN, appID, appsecret, template_ID
 from django.http import JsonResponse
 
 
@@ -75,15 +75,14 @@ def register_form(request):
 
 def query_form(request):
     return HttpResponseRedirect(oauthClient_patient.authorize_url)
-    #return render_to_response('weixin/query_form.html')
     
 
 @csrf_exempt
 def register(request):
     if request.method == "POST":
-        p_id = request.POST.get('patient_id_first','')
-        p_name = request.POST.get('patient_name','')
-        p_openID = request.POST.get('patient_openID','')
+        p_id = request.POST.get('patient_id_first', '')
+        p_name = request.POST.get('patient_name', '')
+        p_openID = request.POST.get('patient_openID', '')
         p_status = "正在处理中"
         p = Patient(patient_id=p_id,
                     patient_name=p_name,
@@ -99,9 +98,9 @@ def register(request):
 @csrf_exempt
 def query(request):
     if request.method == "POST":
-        p_id = request.POST.get("patient_id",'')
-        p = Patient.objects.get(patient_id = p_id)
-        return render(request, 'weixin/query_result.html',{'patient':p})
+        p_id = request.POST.get("patient_id", '')
+        p = Patient.objects.get(patient_id=p_id)
+        return render(request, 'weixin/query_result.html', {'patient': p})
 
 
 def register_success(request):
@@ -110,7 +109,6 @@ def register_success(request):
 
 def login_form(request):
     return HttpResponseRedirect(oauthClient_member.authorize_url)
-    #return render_to_response('weixin/login_form.html')
 
 
 @csrf_exempt
@@ -122,7 +120,6 @@ def login(request):
         if user.doctor_password == user_password:
             patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
             return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
-            #return render_to_response('weixin/admin_query_form.html')
         else:
             return render_to_response('weixin/login_error.html')
     return HttpResponse('Data not received', content_type="text/plain")
