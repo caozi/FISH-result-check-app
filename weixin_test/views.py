@@ -74,7 +74,13 @@ def register_form(request):
 
 
 def query_form(request):
-    return HttpResponseRedirect(oauthClient_patient.authorize_url)
+    registered = request.session.get('registered', False)
+    if registered:
+        open_ID = request.session['openID']
+        p = Patient.objects.get(patient_openID=open_ID)
+        return render(request, 'weixin/query_result.html', {'patient': p})
+    else:
+        return render_to_response('weixin/query_error.html')
     
 
 @csrf_exempt
@@ -90,6 +96,8 @@ def register(request):
                     patient_status=p_status
                 )
         p.save()
+        request.session['registered'] = True
+        request.session['openID'] = p_openID
         send_message(template_ID, p)
         return HttpResponseRedirect('register_success/')
     return HttpResponse('Data not received', content_type="text/plain")
