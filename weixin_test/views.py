@@ -74,13 +74,7 @@ def register_form(request):
 
 
 def query_form(request):
-    authorized = request.session.get('authorized', False)
-    if authorized:
-        openID = request.session.get('openID')
-        p = Patient.objects.get(patient_openID=openID)
-        return render(request, 'weixin/query_result.html', {'patient': p})
-    else:
-        return HttpResponseRedirect(oauthClient_patient.authorize_url)
+    return HttpResponseRedirect(oauthClient_patient.authorize_url)
     
 
 @csrf_exempt
@@ -216,8 +210,6 @@ def patient_query(request):
     res = oauthClient_member.fetch_access_token(code=code)
     try:
         p = Patient.objects.get(patient_openID=res['openid'])
-        request.session.get('authorized', True)
-        request.session['openID'] = res['openid']
         return render(request, 'weixin/query_result.html', {'patient': p})
     except:
         return render_to_response('weixin/query_error.html')
