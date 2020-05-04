@@ -213,7 +213,7 @@ def login_with_oath(request):
     try:
         _ = Member.objects.get(member_openID=res['openid'])
         request.session['authorized'] = True
-        patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
+        patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告').order_by('patient_id')
         return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
     except:
         return render_to_response('weixin/login_error.html')
@@ -223,7 +223,7 @@ def patient_query(request):
     code = request.GET['code']
     res = oauthClient_member.fetch_access_token(code=code)
     try:
-        p = Patient.objects.get(patient_openID=res['openid'])
+        p = Patient.objects.get(patient_openID=res['openid']).order_by('-patient_id')
         return render(request, 'weixin/query_result.html', {'patient': p})
     except:
         return render_to_response('weixin/query_error.html')

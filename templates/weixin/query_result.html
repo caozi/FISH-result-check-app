@@ -15,6 +15,7 @@
                     </div>
                     <div class="weui-form__control-area">
                         <div class="weui-form-preview">
+                            {% for patient in p %}
                             <div class="weui-form-preview__hd">
                                 <div class="weui-form-preview__item">
                                     <label class="weui-form-preview__label">姓名</label>
@@ -31,6 +32,7 @@
                                     <span class="weui-form-preview__value">{{ patient.patient_status }}</span>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
