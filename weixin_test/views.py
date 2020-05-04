@@ -116,7 +116,12 @@ def register_success(request):
 
 
 def login_form(request):
-    return HttpResponseRedirect(oauthClient_member.authorize_url)
+    authorized = request.session.get('authorized', False)
+    if authorized:
+        patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
+        return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
+    else:
+        return HttpResponseRedirect(oauthClient_member.authorize_url)
 
 
 @csrf_exempt
@@ -131,6 +136,7 @@ def login(request):
         else:
             return render_to_response('weixin/login_error.html')
     return HttpResponse('Data not received', content_type="text/plain")
+
 
 @csrf_exempt
 def admin_query(request):
@@ -174,7 +180,6 @@ def admin_query_override(request):
     return HttpResponse('Data not received', content_type="text/plain")
 
 
-
 def check_patient_ID_exist(request):
     p_id = request.GET.get('patient_id', None)
     try:
@@ -207,6 +212,7 @@ def login_with_oath(request):
     res = oauthClient_member.fetch_access_token(code=code)
     try:
         _ = Member.objects.get(member_openID=res['openid'])
+        request.session['authorized'] = True
         patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
         return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
     except:
