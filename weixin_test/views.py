@@ -12,11 +12,9 @@ from django.http import JsonResponse
 
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
-redirect_uri_patient = "https://georgecaozi.pythonanywhere.com/weixin/patient_query"
 redirect_uri_member = "https://georgecaozi.pythonanywhere.com/weixin/login_with_oath"
 oauthClient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri)
 oauthClient_member = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
-oauthClient_patient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_patient)
 client = WeChatClient(appID, appsecret)
 
 
@@ -76,8 +74,8 @@ def register_form(request):
 def query_form(request):
     registered = request.session.get('registered', False)
     if registered:
-        open_ID = request.session['openID']
-        p = Patient.objects.get(patient_openID=open_ID)
+        p_openID = request.session['openID']
+        p = Patient.objects.get(patient_openID=p_openID)
         return render(request, 'weixin/query_result.html', {'patient': p})
     else:
         return render_to_response('weixin/query_error.html')
@@ -218,12 +216,3 @@ def login_with_oath(request):
     except:
         return render_to_response('weixin/login_error.html')
 
-
-def patient_query(request):
-    code = request.GET['code']
-    res = oauthClient_member.fetch_access_token(code=code)
-    try:
-        p = Patient.objects.get(patient_openID=res['openid']).order_by('-patient_id')
-        return render(request, 'weixin/query_result.html', {'patient': p})
-    except:
-        return render_to_response('weixin/query_error.html')
