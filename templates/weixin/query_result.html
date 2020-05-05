@@ -15,6 +15,7 @@
                     </div>
                     <div class="weui-form__control-area">
                         <div class="weui-form-preview">
+                            {% if patient|length > 1 %}
                             {% for p in patient %}
                             <div class="weui-form-preview__hd">
                                 <div class="weui-form-preview__item">
@@ -33,6 +34,24 @@
                                 </div>
                             </div>
                             {% endfor %}
+                            {% else %}
+                            <div class="weui-form-preview__hd">
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">姓名</label>
+                                    <em class="weui-form-preview__value">{{ patient.patient_name }}</em>
+                                </div>
+                            </div>
+                            <div class="weui-form-preview__bd">
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">会诊号</label>
+                                    <span class="weui-form-preview__value">HZ{{ patient.patient_id }}</span>
+                                </div>
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">状态</label>
+                                    <span class="weui-form-preview__value">{{ patient.patient_status }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
