@@ -97,31 +97,41 @@
                 var $patient_name = $('#patient_name');
                 var $register = $('#register');
                 var $loadingToast = $('#loadingToast');
+                var containsOnlyDigits = /^[0-9]+$/;
 
                 $patient_id_second.on('focus',function(){
                     var patient_id = $patient_id_first.val();
                     if(patient_id){
-                        $loadingToast.show();
-                        $.ajax({
-                        url: '/weixin/check_patient_id/',
-                        data: {
-                            'patient_id': patient_id
-                        },
-                        dataType: 'json',
-                        success: function (data) {
-                            if ((data.exist)) {
-                                $warn_tip.text("会诊号已经存在");
-                                $toast.fadeIn(100);
-                                setTimeout(function () {
-                                    $toast.fadeOut(100);
-                                }, 2000);
-                                $patient_id_first.val('').focus();
+                        if(containsOnlyDigits.test(patient_id)){
+                            $loadingToast.show();
+                            $.ajax({
+                                url: '/weixin/check_patient_id/',
+                                data: {
+                                    'patient_id': patient_id
+                                },
+                            dataType: 'json',
+                            success: function (data) {
+                                if ((data.exist)) {
+                                    $warn_tip.text("会诊号已经存在");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $patient_id_first.val('').focus();
+                                }
+                            },
+                            complete: function(){
+                                $loadingToast.hide();
                             }
-                        },
-                        complete: function(){
-                            $loadingToast.hide();
-                        }
-                    });
+                        });
+                        }else{
+                            $warn_tip.text("会诊号不包含字母！");
+                            $toast.fadeIn(100);
+                            setTimeout(function () {
+                                $toast.fadeOut(100);
+                            }, 2000);
+                            $patient_id_first.val('').focus();
+                        }                        
                     }else{
                         $warn_tip.text("请输入会诊号");
                         $toast.fadeIn(100);
