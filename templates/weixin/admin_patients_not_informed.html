@@ -3,26 +3,27 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <title>查找病人</title>
         <!-- 引入 WeUI CDN 链接 -->
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
     </head>
     <body>
             <div class="page">
-                <div class="weui-form">
-                    <div class="weui-form__text-area">
-                        <h2 class="weui-form__title">病人列表</h2>
+                <div class="weui-panel">
+                    <div class="weui-panel__hd">未通知病人列表</div>
+                    <div class="weui-panel__bd">
+                        <div class="weui-media-box weui-media-box_small-appmsg">
+                            <div class="weui-cells">
+                                {% for patient in patients_not_informed %}
+                                <a class="weui-cell  weui-cell_access" href="javascript:adminQueryResult({{patient.patient_id}})">
+                                    <div class="weui-cell__bd">
+                                        <p>HZ{{patient.patient_id}}：{{patient.patient_name}}</p>
+                                    </div>
+                                    <div class="weui-cell__ft">操作</div>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
-                     <div class="weui-cells">
-                         {% for patient in patients_not_informed %}
-                             <a class="weui-cell  weui-cell_access" href="javascript:adminQueryResult({{patient.patient_id}})">
-                                 <div class="weui-cell__bd">
-                                     <p>HZ{{patient.patient_id}}：{{patient.patient_name}}</p>
-                                 </div>
-                                 <div class="weui-cell__ft">操作</div>
-                             </a>
-                         {% endfor %}
-                     </div>
                 </div>
             </div>
     </body>
@@ -44,6 +45,10 @@
         }
     </script>
 </html>
+
+
+
+
 
 
 
