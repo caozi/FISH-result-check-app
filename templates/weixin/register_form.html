@@ -16,6 +16,7 @@
                     </div>
                     <div class="weui-form__control-area">
                         <div class="weui-cells__group weui-cells__group_form">
+                            <div class="weui-cells__title">会诊号以HZ开头加5位数字</div>
                             <div class="weui-cells weui-cells_form">
                                 <div class="weui-cell weui-cell_active">
                                     <div class="weui-cell__hd">
@@ -25,7 +26,7 @@
                                         HZ
                                     </div>
                                     <div class="weui-cell__bd" >
-                                        <input type="tel" name="patient_id_first" id="patient_id_first" class="weui-input" placeholder="填写五位会诊号" />
+                                        <input type="number"  pattern="[0-9]{5}" name="patient_id_first" id="patient_id_first" class="weui-input" placeholder="填写五位数字" />
                                     </div>
                                 </div>
                                 <div class="weui-cell weui-cell_active">
@@ -36,7 +37,7 @@
                                         HZ
                                     </div>
                                     <div class="weui-cell__bd">
-                                        <input type="tel"  name="patient_id_second" id="patient_id_second" class="weui-input" placeholder="再次填写会诊号" />
+                                        <input type="number"  maxlength="5" name="patient_id_second" id="patient_id_second" class="weui-input" placeholder="再次填写" />
                                     </div>
                                 </div>
                                 <div class="weui-cell weui-cell_active">
