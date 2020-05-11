@@ -98,7 +98,7 @@
                 var $patient_name = $('#patient_name');
                 var $register = $('#register');
                 var $loadingToast = $('#loadingToast');
-                var containsOnlyDigits = /^[0-9]+$/;
+                var containsOnlyDigits = /^[0-9]{5}$/;
 
                 $patient_id_second.on('focus',function(){
                     var patient_id = $patient_id_first.val();
@@ -126,7 +126,7 @@
                             }
                         });
                         }else{
-                            $warn_tip.text("会诊号不包含字母！");
+                            $warn_tip.text("填写5位数字！");
                             $toast.fadeIn(100);
                             setTimeout(function () {
                                 $toast.fadeOut(100);
