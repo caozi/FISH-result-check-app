@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <title>病人信息</title>
         <!-- 引入 WeUI CDN 链接 -->
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
       </head>
@@ -57,6 +56,16 @@
                                         <input name="patient_openID" id="patient_openID" class="weui-input"  value = {{patient.patient_openID}} required />
                                     </div>
                                 </div>
+                                <div class="weui-cells weui-cells_form">
+                                    <div class="weui-cell ">
+                                        <div class="weui-cell__hd">
+                                        <label class="weui-label">附言</label>
+                                    </div>
+                                        <div class="weui-cell__bd">
+                                            <textarea class="weui-textarea" name="patient_note" id="patient_note" placeholder="无" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,7 +98,6 @@
                 var $patient_status = $('#patient_status');
                 var $modify = $('#modify');
 
-
                 $modify.on('click', function(){
                     if($patient_status.val() == "选择状态"){
                         $('#form').submit(false);
@@ -103,6 +111,7 @@
                         $('#form')[0].submit(true);
                     }
                 });
+
         });
       </script>
 </html>

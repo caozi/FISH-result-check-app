@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <title>会诊登记</title>
         <!-- 引入 WeUI CDN 链接 -->
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
     </head>
@@ -55,6 +54,27 @@
                                         <input name="patient_openID" id="patient_openID" class="weui-input" value = {{openid}}  />
                                     </div>
                                 </div>
+                                <div class="weui-cell weui-cell_active">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">手机号码</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input type="number" name="patient_phone" id="patient_phone" class="weui-input" placeholder="填写手机号"  />
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">会诊主任</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <select class="weui-select" id="patient_doctor" name="patient_doctor">
+                                            <option selected>选择主任</option>
+                                            {% for doctor in doctors %}
+                                            <option value="{{doctor.doctor_name}}">{{doctor.doctor_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -99,6 +119,9 @@
                 var $register = $('#register');
                 var $loadingToast = $('#loadingToast');
                 var containsOnlyDigits = /^[0-9]{5}$/;
+                var phone_number_regex = /^[0-9]{11}$/;
+                var $patient_phone = $('#patient_phone');
+                var $patient_doctor = $('#patient_doctor');
 
                 $patient_id_second.on('focus',function(){
                     var patient_id = $patient_id_first.val();
@@ -145,7 +168,8 @@
                 });
 
                 $patient_name.on('focus', function(){
-                    if($patient_id_first.val() != $patient_id_second.val()){
+                    if($patient_id_first.val() != ""){
+                        if($patient_id_first.val() != $patient_id_second.val()){
                         $warn_tip.text("会诊号不一致");
                         $toast.fadeIn(100);
                         setTimeout(function () {
@@ -154,20 +178,63 @@
                          $patient_id_first.val('').focus();
                          $patient_id_second.val('');
                     }
+                    } else{
+                        $warn_tip.text("请输入会诊号");
+                        $toast.fadeIn(100);
+                        setTimeout(function () {
+                            $toast.fadeOut(100);
+                         }, 2000);
+                         $patient_id_first.val('').focus();
+                         $patient_id_second.val('');
+                    }
+
                 });
 
-
-                $register.on('click', function(){
-                    if($patient_name.val()){
-                        $('#form')[0].submit(true);
-                    }else{
-                        $('#form').submit(false);
+                $patient_phone.on('focus', function(){
+                    if($patient_name.val() == ""){
                         $warn_tip.text("请输入姓名");
                         $toast.fadeIn(100);
                         setTimeout(function () {
                             $toast.fadeOut(100);
                          }, 2000);
                          $patient_name.focus();
+                    }
+                });
+
+
+                $patient_doctor.on('focus', function(){
+                    if($patient_phone.val()){
+                        if(! phone_number_regex.test($patient_phone.val())){
+                            $warn_tip.text("请输入11位手机号码");
+                            $toast.fadeIn(100);
+                            setTimeout(function () {
+                                $toast.fadeOut(100);
+                            }, 2000);
+                            $patient_phone.val('');
+                            $patient_phone.focus();
+                        }
+                    }else{
+                        $warn_tip.text("请输入手机号码");
+                        $toast.fadeIn(100);
+                        setTimeout(function () {
+                            $toast.fadeOut(100);
+                         }, 2000);
+                         $patient_phone.focus();
+                    }
+                });
+
+
+                $register.on('click', function(){
+                    if($patient_doctor.val() != "选择主任"){
+                        $('#form')[0].submit(true);
+                    }else{
+                        $('#form').submit(false);
+                        $warn_tip.text("请选择会诊主任");
+                        $toast.fadeIn(100);
+                        setTimeout(function () {
+                            $toast.fadeOut(100);
+                         }, 2000);
+                         $patient_doctor.focus();
                     }
                 });
             });

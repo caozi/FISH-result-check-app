@@ -6,7 +6,7 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from wechatpy.oauth import WeChatOAuth
-from .models import Patient, Doctors, Member
+from .models import Patient, Doctor
 from .weixin_config import TOKEN, appID, appsecret, template_ID
 from django.http import JsonResponse
 
@@ -45,6 +45,7 @@ def index(request):
         return HttpResponse('ERROR')
 
 
+#创建菜单
 def create_menu(request):
     client.menu.create({
         "button": [
@@ -60,17 +61,45 @@ def create_menu(request):
 def get_openid(request):
     return HttpResponseRedirect(oauthClient.authorize_url)
 
-
+#会诊登记页面
 def register_form(request):
     if request.method == 'GET':
         code = request.GET['code']
         res = oauthClient.fetch_access_token(code=code)
-        params = {'openid': res['openid']}
+        doctors_names = Doctor.objects.values('doctor_name')
+        params = {'openid'       : res['openid'],
+                  'doctors': doctors_names
+                  }
+        return render_to_response('weixin/register_form.html', params)
     else:
-        params = {'openid': 'error'}
-    return render_to_response('weixin/register_form.html', params)
+        return HttpResponseRedirect(oauthClient.authorize_url)
+
+#会诊登记页面处理
+@csrf_exempt
+def register(request):
+    if request.method == "POST":
+        p_id = request.POST.get('patient_id_first', '')
+        p_name = request.POST.get('patient_name', '')
+        p_openID = request.POST.get('patient_openID', '')
+        p_phone = request.POST.get('patient_phone','')
+        p_doctor = Doctor.object.get(doctor_name = request.POST.get('patient_doctor'))
+        p = Patient(patient_id=p_id,
+                    patient_name=p_name,
+                    patient_openID=p_openID,
+                    patient_phone = p_phone,
+                    patient_doctor = p_doctor,
+                    patient_status="正在处理中",
+                    patient_notes='无',
+                )
+        p.save()
+        request.session['registered'] = True
+        request.session['openID'] = p_openID
+        send_message(template_ID, p)
+        return render_to_response('weixin/register_success.html')
+    return HttpResponse('Data not received', content_type="text/plain")
 
 
+#查询
 def query_form(request):
     registered = request.session.get('registered', False)
     if registered:
@@ -79,40 +108,9 @@ def query_form(request):
         return render(request, 'weixin/query_result.html', {'patient': p})
     else:
         return render_to_response('weixin/query_error.html')
-    
-
-@csrf_exempt
-def register(request):
-    if request.method == "POST":
-        p_id = request.POST.get('patient_id_first', '')
-        p_name = request.POST.get('patient_name', '')
-        p_openID = request.POST.get('patient_openID', '')
-        p_status = "正在处理中"
-        p = Patient(patient_id=p_id,
-                    patient_name=p_name,
-                    patient_openID=p_openID,
-                    patient_status=p_status
-                )
-        p.save()
-        request.session['registered'] = True
-        request.session['openID'] = p_openID
-        send_message(template_ID, p)
-        return HttpResponseRedirect('register_success/')
-    return HttpResponse('Data not received', content_type="text/plain")
 
 
-@csrf_exempt
-def query(request):
-    if request.method == "POST":
-        p_id = request.POST.get("patient_id", '')
-        p = Patient.objects.get(patient_id=p_id)
-        return render(request, 'weixin/query_result.html', {'patient': p})
-
-
-def register_success(request):
-    return render_to_response('weixin/register_success.html')
-
-
+#登录页面
 def login_form(request):
     authorized = request.session.get('authorized', False)
     if authorized:
@@ -121,79 +119,27 @@ def login_form(request):
     else:
         return HttpResponseRedirect(oauthClient_member.authorize_url)
 
-
-@csrf_exempt
-def login(request):
-    if request.method == "POST":
-        user_name = request.POST.get('user_name', '')
-        user_password = request.POST.get('user_password', '')
-        user = Doctors.objects.get(doctor_name=user_name)
-        if user.doctor_password == user_password:
-            patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
-            return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
-        else:
-            return render_to_response('weixin/login_error.html')
-    return HttpResponse('Data not received', content_type="text/plain")
-
-
-@csrf_exempt
-def admin_query(request):
-    if request.method == 'POST':
-        p_id = request.POST.get('patient_id', '')
-        try:
-            p = Patient.objects.get(patient_id = p_id)
-            return render(request, 'weixin/admin_query_result.html', {'patient': p})
-        except Patient.DoesNotExist:
-            return render_to_response('weixin/query_error.html')
-    return HttpResponse('Data not received', content_type="text/plain")
-
-
-def send_message(template_ID, patient):
-    data = {
-          'patient_id': {'value': patient.patient_id},
-          'patient_name': {'value': patient.patient_name},
-          'patient_status': {'value': patient.patient_status, 'color': '#B22222'}
-        }
-    client.message.send_template(patient.patient_openID, template_ID, data)
-
-
-
 @csrf_exempt
 def admin_query_override(request):
     if request.method == "POST":                                                                                                                
         p_id = request.POST.get('patient_id', '')
-        p_name = request.POST.get('patient_name', '')
-        p_openID = request.POST.get('patient_openID', '')
         p_status = request.POST.get('patient_status', '')
+        p_note = request.POST.get('patient_note', '')
         p = Patient.objects.get(patient_id=p_id)
-        p.delete()
-        p = Patient(patient_id=p_id,
-                    patient_name=p_name,
-                    patient_openID=p_openID,
-                    patient_status=p_status
-             )
+        p.patient_status = p_status
+        p.patient_note = p_note
         p.save()
         send_message(template_ID, p)
         return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received', content_type="text/plain")
 
 
+#检查患者输入的会诊号是否存在
 def check_patient_ID_exist(request):
     p_id = request.GET.get('patient_id', None)
     try:
         _ = Patient.objects.get(patient_id=p_id)
     except Patient.DoesNotExist:
-        data = {}
-    else:
-        data = {'exist': True}
-    return JsonResponse(data)
-
-
-def check_user_name(request):
-    user_name = request.GET.get('user_name', None)
-    try:
-        _ = Doctors.objects.get(doctor_name=user_name)
-    except:
         data = {}
     else:
         data = {'exist': True}
@@ -209,10 +155,20 @@ def login_with_oath(request):
     code = request.GET['code']
     res = oauthClient_member.fetch_access_token(code=code)
     try:
-        _ = Member.objects.get(member_openID=res['openid'])
+        _ = Doctor.objects.get(doctor_openID=res['openid'])
         request.session['authorized'] = True
         patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告').order_by('patient_id')
         return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
     except:
         return render_to_response('weixin/login_error.html')
 
+
+
+def send_message(template_ID, patient):
+    data = {
+          'patient_id': {'value': patient.patient_id},
+          'patient_name': {'value': patient.patient_name},
+          'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
+          'patient_notes': {'value': patient.patient_note, 'color': '#B22222'}
+        }
+    client.message.send_template(patient.patient_openID, template_ID, data)

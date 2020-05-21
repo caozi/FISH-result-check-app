@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <title>查询结果</title>
         <!-- 引入 WeUI CDN 链接 -->
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
     </head>
@@ -32,6 +31,10 @@
                                     <label class="weui-form-preview__label">状态</label>
                                     <span class="weui-form-preview__value">{{ p.patient_status }}</span>
                                 </div>
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">附言</label>
+                                    <span class="weui-form-preview__value">{{ p.patient_note }}</span>
+                                </div>
                             </div>
                             {% endfor %}
                             {% else %}
@@ -49,6 +52,10 @@
                                 <div class="weui-form-preview__item">
                                     <label class="weui-form-preview__label">状态</label>
                                     <span class="weui-form-preview__value">{{ patient.patient_status }}</span>
+                                </div>
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">附言</label>
+                                    <span class="weui-form-preview__value">{{ p.patient_note }}</span>
                                 </div>
                             </div>
                             {% endif %}
