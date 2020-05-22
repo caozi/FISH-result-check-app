@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="weui-form-preview__item">
                                     <label class="weui-form-preview__label">主任</label>
-                                    <span class="weui-form-preview__value">{{ p.patient_doctor }}</span>
+                                    <span class="weui-form-preview__value">{{ p.patient_doctor.doctor_name }}</span>
                                 </div>
                             </div>
                             {% endfor %}
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="weui-form-preview__item">
                                     <label class="weui-form-preview__label">主任</label>
-                                    <span class="weui-form-preview__value">{{ patient.patient_doctor }}</span>
+                                    <span class="weui-form-preview__value">{{ patient.patient_doctor.doctor_name }}</span>
                                 </div>
                             </div>
                             {% endif %}
