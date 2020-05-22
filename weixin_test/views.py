@@ -158,6 +158,21 @@ def admin_query(request):
     return HttpResponse('Data not received', content_type="text/plain")
 
 
+@csrf_exempt
+def admin_query_override(request):
+    if request.method == "POST":
+        p_id = request.POST.get('patient_id', '')
+        p_status = request.POST.get('patient_status', '')
+        p_note = request.POST.get('patient_note', '')
+        p = Patient.objects.get(patient_id=p_id)
+        p.patient_status = p_status
+        p.patient_note = p_note
+        p.save()
+        send_message(template_ID, p)
+        return render_to_response('weixin/admin_query_success.html')
+    return HttpResponse('Data not received', content_type="text/plain")
+
+
 def back_to_admin_query(request):
     patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
     return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
