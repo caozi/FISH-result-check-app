@@ -185,14 +185,14 @@ def admin_query_override(request):
 def back_to_admin_query(request):
     notify = request.POST.get('notify')
     p_id = request.POST.get('patient_id')
-    if notify = 'success':
+    if notify == 'success':
         d_openID = request.session.get('openID')
         doctor = Doctor.objects.get(doctor_openID=d_openID)
         patients_not_informed = Patient.objects.filter(patient_doctor=doctor).exclude(
             patient_status='请来报告中心取病理报告').order_by('patient_id')
         return render(request, 'weixin/admin_patients_not_informed.html',
                       {'patients_not_informed': patients_not_informed})
-    else:
+    elif notify == 'failure':
         p = Patient.objects.get(patient_id=p_id)
         return render(request, 'weixin/notify_by_phone.html', {'patient': p})
 
