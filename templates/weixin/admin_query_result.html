@@ -62,7 +62,7 @@
                                         <label class="weui-label">附言</label>
                                     </div>
                                         <div class="weui-cell__bd">
-                                            <textarea class="weui-textarea" name="patient_note" id="patient_note" placeholder="无" rows="3"></textarea>
+                                            <textarea class="weui-textarea" name="patient_note" id="patient_note" placeholder="无" rows="3">无</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -138,14 +138,14 @@
                                     setTimeout(function () {
                                         $toast.fadeOut(100);
                                     }, 2000);
-                                    $notify.val('success');
+                                    $notify.val("success");
                                 }else{
                                     $warn_tip.text("通知失败");
                                     $toast.fadeIn(100);
                                     setTimeout(function () {
                                         $toast.fadeOut(100);
                                     }, 2000);
-                                    $notify.val('failure');
+                                    $notify.val("failure");
                                 }
                             },
                             complete: function(){
