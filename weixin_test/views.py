@@ -185,7 +185,7 @@ def admin_query_override(request):
 def back_to_admin_query(request):
     notify = request.POST.get('notify')
     p_id = request.POST.get('patient_id')
-    if notify == 'success':
+    if notify = 'success':
         d_openID = request.session.get('openID')
         doctor = Doctor.objects.get(doctor_openID=d_openID)
         patients_not_informed = Patient.objects.filter(patient_doctor=doctor).exclude(
