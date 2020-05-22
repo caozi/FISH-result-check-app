@@ -146,6 +146,18 @@ def check_patient_ID_exist(request):
     return JsonResponse(data)
 
 
+@csrf_exempt
+def admin_query(request):
+    if request.method == 'POST':
+        p_id = request.POST.get('patient_id', '')
+        try:
+            p = Patient.objects.get(patient_id = p_id)
+            return render(request, 'weixin/admin_query_result.html', {'patient': p})
+        except Patient.DoesNotExist:
+            return render_to_response('weixin/query_error.html')
+    return HttpResponse('Data not received', content_type="text/plain")
+
+
 def back_to_admin_query(request):
     patients_not_informed = Patient.objects.exclude(patient_status='请来报告中心取病理报告')
     return render(request, 'weixin/admin_patients_not_informed.html', {'patients_not_informed': patients_not_informed})
