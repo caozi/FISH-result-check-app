@@ -163,7 +163,6 @@ def admin_query(request):
     return HttpResponse('Data not received', content_type="text/plain")
 
 
-@csrf_exempt
 def admin_query_override(request):
     p_id = request.GET.get('patient_id')
     p_status = request.GET.get('patient_status')
@@ -175,7 +174,7 @@ def admin_query_override(request):
     try:
         send_message(template_ID, p)
     except :
-        data = {'notify': False}
+        data = {}
     else:
         data = {'notify': True}
     return JsonResponse(data)
