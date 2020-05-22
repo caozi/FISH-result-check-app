@@ -181,7 +181,7 @@ def admin_query_override(request):
     return JsonResponse(data)
 
 
-
+@csrf_exempt
 def back_to_admin_query(request):
     notify = request.POST.get('notify')
     p_id = request.POST.get('patient_id')
