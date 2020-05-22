@@ -237,7 +237,7 @@
 
                 $register.on('click', function(){
                     if($patient_doctor.val() != "选择主任"){
-                        $loading_tip.text('会诊号校验中')
+                        $loading_tip.text('会诊登记中')
                         $loadingToast.show();
                          $.ajax({
                                 url: '/weixin/register/',
