@@ -35,6 +35,10 @@
                                     <label class="weui-form-preview__label">附言</label>
                                     <span class="weui-form-preview__value">{{ p.patient_note }}</span>
                                 </div>
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">主任</label>
+                                    <span class="weui-form-preview__value">{{ p.patient_doctor }}</span>
+                                </div>
                             </div>
                             {% endfor %}
                             {% else %}
@@ -55,7 +59,11 @@
                                 </div>
                                 <div class="weui-form-preview__item">
                                     <label class="weui-form-preview__label">附言</label>
-                                    <span class="weui-form-preview__value">{{ p.patient_note }}</span>
+                                    <span class="weui-form-preview__value">{{ patient.patient_note }}</span>
+                                </div>
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label">主任</label>
+                                    <span class="weui-form-preview__value">{{ patient.patient_doctor }}</span>
                                 </div>
                             </div>
                             {% endif %}
