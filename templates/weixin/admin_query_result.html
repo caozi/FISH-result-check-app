@@ -43,17 +43,17 @@
                                         <select class="weui-select" id="patient_status" name="patient_status">
                                             <option selected>选择状态</option>
                                             <option value="正在处理中">正在处理中</option>
-                                            <option value="请来报告中心取病理报告">请来报告中心取病理报告</option>
                                             <option value="您已欠费，请来报告中心挂号补费">请来报告中心补费</option>
+                                            <option value="请来报告中心取病理报告">请来报告中心取病理报告</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="weui-cell weui-cell_active" style="display: none;">
                                     <div class="weui-cell__hd">
-                                        <label class="weui-label">openID</label>
+                                        <label class="weui-label">通知状态</label>
                                     </div>
                                     <div class="weui-cell__bd">
-                                        <input name="patient_openID" id="patient_openID" class="weui-input"  value = {{patient.patient_openID}} required />
+                                        <input name="notify" id="notify" class="weui-input"  required />
                                     </div>
                                 </div>
                                 <div class="weui-cells weui-cells_form">
@@ -88,6 +88,15 @@
                 </div>
             </div>
             <!--end warn toast-->
+            <!-- loading toast -->
+            <div id="loadingToast" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-loading weui-icon_toast"></i>
+                    <p class="weui-toast__content">正在发送通知</p>
+                </div>
+            </div>
+            <!--end toast-->
         </form>
     </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
@@ -95,8 +104,13 @@
             $(function(){
                 var $toast = $('#toast');
                 var $warn_tip = $('#warn_tip');
+                var $patient_id = $('#patient_id');
                 var $patient_status = $('#patient_status');
+                var $patient_note = $('#patient_note');
                 var $modify = $('#modify');
+                var $loadingToast = $('#loadingToast');
+                var $notify = $('#notify');
+
 
                 $modify.on('click', function(){
                     if($patient_status.val() == "选择状态"){
@@ -108,6 +122,36 @@
                          }, 2000);
                          $patient_name.focus();
                     }else{
+                         $loadingToast.show();
+                         $.ajax({
+                                url: '/weixin/admin_query_override/',
+                                data: {
+                                    'patient_id'    : $patient_id.val(),
+                                    'patient_status': $patient_status.val(),
+                                    'patient_note'  : $patient_note.val()
+                                },
+                            dataType: 'json',
+                            success: function (data) {
+                                if ((data.notify)) {
+                                    $warn_tip.text("成功通知");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $notify.val('success');
+                                }else{
+                                    $warn_tip.text("通知失败");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $notify.val('failure');
+                                }
+                            },
+                            complete: function(){
+                                $loadingToast.hide();
+                            }
+                        });
                         $('#form')[0].submit(true);
                     }
                 });
@@ -115,5 +159,6 @@
         });
       </script>
 </html>
+
 
 
