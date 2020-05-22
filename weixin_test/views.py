@@ -82,7 +82,7 @@ def register(request):
         p_name = request.POST.get('patient_name', '')
         p_openID = request.POST.get('patient_openID', '')
         p_phone = request.POST.get('patient_phone','')
-        p_doctor = Doctor.object.get(doctor_name = request.POST.get('patient_doctor'))
+        p_doctor = Doctor.objects.get(doctor_name = request.POST.get('patient_doctor'))
         p = Patient(patient_id=p_id,
                     patient_name=p_name,
                     patient_openID=p_openID,
