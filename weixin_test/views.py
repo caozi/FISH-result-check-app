@@ -114,7 +114,7 @@ def query_form(request):
     registered = request.session.get('registered', False)
     if registered:
         p_openID = request.session['openID']
-        p = Patient.objects.get(patient_openID=p_openID)
+        p = Patient.objects.filter(patient_openID=p_openID)
         return render(request, 'weixin/query_result.html', {'patient': p})
     else:
         return render_to_response('weixin/query_error.html')
