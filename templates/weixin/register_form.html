@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
     </head>
     <body>
-        <form action="/weixin/register/" method="post" id="form" onsubmit="return false">
+        <form action="/weixin/after_register/" method="post" id="form" onsubmit="return false">
             <div class="page">
                 <div class="weui-form">
                     <div class="weui-form__text-area">
@@ -75,6 +75,14 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="weui-cell weui-cell_active" style="display: none;">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">登记状态</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="notify" id="notify" class="weui-input"  required />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,6 +130,7 @@
                 var phone_number_regex = /^[0-9]{11}$/;
                 var $patient_phone = $('#patient_phone');
                 var $patient_doctor = $('#patient_doctor');
+                var $notify = $('#notify');
 
                 $patient_id_second.on('focus',function(){
                     var patient_id = $patient_id_first.val();
@@ -226,7 +235,39 @@
 
                 $register.on('click', function(){
                     if($patient_doctor.val() != "选择主任"){
-                        $('#form')[0].submit(true);
+                        $loadingToast.show();
+                         $.ajax({
+                                url: '/weixin/register/',
+                                data: {
+                                    'patient_id': $patient_id_first.val(),
+                                    'patient_name' : $patient_name.val(),
+                                    'patient_openID' : $('#patient_openID').val(),
+                                    'patient_phone' : $patient_phone.val(),
+                                    'patient_doctor' : $patient_doctor.val(),
+                                },
+                            dataType: 'json',
+                            success: function (data) {
+                                if ((data.notify)) {
+                                    $warn_tip.text("登记成功");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $notify.val("success");
+                                }else{
+                                    $warn_tip.text("登记失败");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $notify.val("failure");
+                                }
+                            },
+                            complete: function(){
+                                $loadingToast.hide();
+                                $('#form')[0].submit(true);
+                            }
+                        });
                     }else{
                         $('#form').submit(false);
                         $warn_tip.text("请选择会诊主任");
@@ -239,5 +280,6 @@
                 });
             });
       </script>
-
 </html>
+
+
