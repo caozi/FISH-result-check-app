@@ -89,7 +89,7 @@ def register(request):
                     patient_phone = p_phone,
                     patient_doctor = p_doctor,
                     patient_status="正在处理中",
-                    patient_notes='无',
+                    patient_note='无',
                 )
         p.save()
         request.session['registered'] = True
@@ -190,12 +190,12 @@ def login_with_oath(request):
         return render_to_response('weixin/login_error.html')
 
 
-
 def send_message(template_ID, patient):
     data = {
           'patient_id': {'value': patient.patient_id},
           'patient_name': {'value': patient.patient_name},
           'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
-          'patient_notes': {'value': patient.patient_note, 'color': '#B22222'}
+          'patient_note': {'value': patient.patient_note, 'color': '#B22222'},
+          'patient_doctor': {'value': patient.patient_doctor}
         }
     client.message.send_template(patient.patient_openID, template_ID, data)
