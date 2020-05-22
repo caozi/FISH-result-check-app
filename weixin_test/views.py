@@ -196,6 +196,6 @@ def send_message(template_ID, patient):
           'patient_name': {'value': patient.patient_name},
           'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
           'patient_note': {'value': patient.patient_note, 'color': '#B22222'},
-          'patient_doctor': {'value': patient.patient_doctor}
+          'patient_doctor': {'value': patient.patient_doctor.doctor_name}
         }
     client.message.send_template(patient.patient_openID, template_ID, data)
