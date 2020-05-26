@@ -12,8 +12,10 @@ from django.http import JsonResponse
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
 redirect_uri_member = "https://georgecaozi.pythonanywhere.com/weixin/login_with_oath"
+redirect_uri_FISH = "https://georgecaozi.pythonanywhere.com/weixin/FISH_register_form_afer_oath"
 oauthClient = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri)
 oauthClient_member = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_member)
+oauthClient_FISH = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_FISH)
 client = WeChatClient(appID, appsecret)
 
 
@@ -47,17 +49,44 @@ def index(request):
 def create_menu(request):
     client.menu.create({
         "button": [
-            {"type": "view", "name": "登记", "url": "http://georgecaozi.pythonanywhere.com/weixin/register_form/"},
-            {"type": "view", "name": "查询", "url": "http://georgecaozi.pythonanywhere.com/weixin/query_form"},
-            {"type": "view", "name": "登录", "url": "http://georgecaozi.pythonanywhere.com/weixin/login_form"}
+            {
+                "name": "登记",
+                "sub_button":
+                [
+                    {
+                        "type": "view",
+                        "name": "会诊",
+                        "url": "http://georgecaozi.pythonanywhere.com/weixin/register_form/"
+                    },
+                    {
+                        "type": "view",
+                        "name": "FISH",
+                        "url": "http://georgecaozi.pythonanywhere.com/weixin/FISH/"
+                    }
+                ]
+            },
+            {
+                "type": "view",
+                "name": "查询",
+                "url": "http://georgecaozi.pythonanywhere.com/weixin/query_form"
+            },
+            {
+                "type": "view",
+                "name": "登录",
+                "url": "http://georgecaozi.pythonanywhere.com/weixin/login_form"
+            }
         ]
     }
     )
     return HttpResponse('ok')
 
-
+# 会诊登记获得openID
 def get_openid(request):
     return HttpResponseRedirect(oauthClient.authorize_url)
+
+# FISH登记获得openID
+def get_openid_FISH(request):
+    return HttpResponseRedirect(oauthClient_FISH.authorize_url)
 
 
 # 会诊登记页面
@@ -73,6 +102,16 @@ def register_form(request):
     else:
         return HttpResponseRedirect(oauthClient.authorize_url)
 
+# FISH登记页面
+def register_form_FISH(request):
+    if request.method == 'GET':
+        code = request.GET['code']
+        res = oauthClient.fetch_access_token(code=code)
+        params = {'openid': res['openid']}
+        return render_to_response('weixin/register_form_FISH.html', params)
+    else:
+        return HttpResponseRedirect(oauthClient.authorize_url)
+
 
 # 会诊登记页面处理
 def register(request):
@@ -82,6 +121,31 @@ def register(request):
     p_phone = request.GET.get('patient_phone')
     p_doctor = Doctor.objects.get(doctor_name=request.GET.get('patient_doctor'))
     p = Patient(patient_id=p_id,
+                patient_name=p_name,
+                patient_openID=p_openID,
+                patient_phone=p_phone,
+                patient_doctor=p_doctor,
+                patient_status="正在处理中",
+                patient_note='无',
+                )
+    p.save()
+    request.session['registered'] = True
+    request.session['openID'] = p_openID
+    try:
+        send_message(template_ID, p)
+    except:
+        data = {}
+    else:
+        data = {'notify': True}
+    return JsonResponse(data)
+
+# 会诊登记页面处理
+def register_FISH(request):
+    p_name = request.GET.get('patient_name')
+    p_openID = request.GET.get('patient_openID')
+    p_phone = request.GET.get('patient_phone')
+    p_doctor = Doctor.objects.get(doctor_name="曹自")
+    p = Patient(patient_id=00000,
                 patient_name=p_name,
                 patient_openID=p_openID,
                 patient_phone=p_phone,

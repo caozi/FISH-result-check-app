@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <!-- 引入 WeUI CDN 链接 -->
+        <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css"/>
+    </head>
+    <body>
+        <form action="/weixin/after_register/" method="post" id="form" onsubmit="return false">
+            <div class="page">
+                <div class="weui-form">
+                    <div class="weui-form__text-area">
+                        <h2 class="weui-form__title">FISH登记</h2>
+                    </div>
+                    <div class="weui-form__control-area">
+                        <div class="weui-cells__group weui-cells__group_form">
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell weui-cell_active">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">姓名</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="patient_name" id="patient_name" class="weui-input" placeholder="填写患者姓名"  /></div>
+                                </div>
+                                <div class="weui-cell weui-cell_active" style="display: none;">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">openID</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="patient_openID" id="patient_openID" class="weui-input" value = {{openid}}  />
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell_active">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">手机号码</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input type="number" name="patient_phone" id="patient_phone" class="weui-input" placeholder="填写手机号"  />
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell_active" style="display: none;">
+                                    <div class="weui-cell__hd">
+                                        <label class="weui-label">登记状态</label>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <input name="notify" id="notify" class="weui-input"  required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-form__opr-area">
+                        <button type="submit" class="weui-btn weui-btn_primary" id="register">登记</button>
+                    </div>
+                    <div class="weui-form__extra-area">
+                        <div class="weui-footer">
+                            <p class="weui-footer__text">Copyright © 2020 天津市肿瘤医院病理科</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--BEGIN warn toast-->
+            <div id="toast" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                    <p class="weui-toast__content" id="warn_tip"></p>
+                </div>
+            </div>
+            <!--end warn toast-->
+            <!-- loading toast -->
+            <div id="loadingToast" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-loading weui-icon_toast"></i>
+                    <p class="weui-toast__content" id="loading_tip"></p>
+                </div>
+            </div>
+            <!--end toast-->
+        </form>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                var $warn_tip = $('#warn_tip');
+                var $toast = $('#toast');
+                var $patient_name = $('#patient_name');
+                var $register = $('#register');
+                var $loadingToast = $('#loadingToast');
+                var containsOnlyDigits = /^[0-9]{5}$/;
+                var phone_number_regex = /^[0-9]{11}$/;
+                var $patient_phone = $('#patient_phone');
+                var $notify = $('#notify');
+                var $loading_tip = $('#loading_tip');
+
+                $register.on('click', function(){
+                        $loading_tip.text('登记中')
+                        $loadingToast.show();
+                         $.ajax({
+                                url: '/weixin/register_FISH/',
+                                data: {
+                                    'patient_name' : $patient_name.val(),
+                                    'patient_openID' : $('#patient_openID').val(),
+                                    'patient_phone' : $patient_phone.val(),
+                                },
+                            dataType: 'json',
+                            success: function (data) {
+                                if ((data.notify)) {
+                                    $warn_tip.text("登记成功");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $notify.val("success");
+                                }else{
+                                    $warn_tip.text("登记失败");
+                                    $toast.fadeIn(100);
+                                    setTimeout(function () {
+                                        $toast.fadeOut(100);
+                                    }, 2000);
+                                    $notify.val("failure");
+                                }
+                            },
+                            complete: function(){
+                                $loadingToast.hide();
+                                $('#form')[0].submit(true);
+                            }
+                        });
+
+                });
+            });
+      </script>
+</html>
+
+
