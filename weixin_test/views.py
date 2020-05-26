@@ -7,7 +7,7 @@ from wechatpy import WeChatClient
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from wechatpy.oauth import WeChatOAuth
 from .models import Patient, Doctor
-from .weixin_config import TOKEN, appID, appsecret, template_ID
+from .weixin_config import TOKEN, appID, appsecret, template_ID, template_ID_FISH
 from django.http import JsonResponse
 
 redirect_uri = "https://georgecaozi.pythonanywhere.com/weixin/register_form_after_oath"
@@ -157,7 +157,7 @@ def register_FISH(request):
     request.session['registered'] = True
     request.session['openID'] = p_openID
     try:
-        send_message(template_ID, p)
+        send_message(template_ID_FISH, p)
     except:
         data = {}
     else:
@@ -208,7 +208,10 @@ def admin_query_override(request):
         p.patient_status = p_status
         p.patient_note = p_note
         p.save()
-        send_message(template_ID, p)
+        if p_id == '0':
+            send_message(template_ID_FISH, p)
+        else:
+            send_message(template_ID, p)
         return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received', content_type="text/plain")
 
