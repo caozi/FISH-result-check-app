@@ -157,7 +157,7 @@ def register_FISH(request):
     request.session['registered'] = True
     request.session['openID'] = p_openID
     try:
-        send_message_FISH(template_ID_FISH, p)
+        send_message_FISH(template_ID, p)
     except:
         data = {}
     else:
@@ -208,7 +208,7 @@ def admin_query_override(request):
         p.patient_status = p_status
         p.patient_note = p_note
         p.save()
-        if p_id == '0':
+        if p_id == 0:
             send_message(template_ID_FISH, p)
         else:
             send_message(template_ID, p)
