@@ -55,12 +55,12 @@ def create_menu(request):
                 [
                     {
                         "type": "view",
-                        "name": "会诊",
+                        "name": "会诊登记",
                         "url": "http://georgecaozi.pythonanywhere.com/weixin/register_form/"
                     },
                     {
                         "type": "view",
-                        "name": "FISH",
+                        "name": "FISH登记",
                         "url": "http://georgecaozi.pythonanywhere.com/weixin/FISH/"
                     }
                 ]
