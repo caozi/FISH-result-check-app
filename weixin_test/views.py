@@ -139,13 +139,13 @@ def register(request):
         data = {'notify': True}
     return JsonResponse(data)
 
-# 会诊登记页面处理
+# FISH登记页面处理
 def register_FISH(request):
     p_name = request.GET.get('patient_name')
     p_openID = request.GET.get('patient_openID')
     p_phone = request.GET.get('patient_phone')
     p_doctor = Doctor.objects.get(doctor_name="曹自")
-    p = Patient(patient_id=00000,
+    p = Patient(patient_id=0,
                 patient_name=p_name,
                 patient_openID=p_openID,
                 patient_phone=p_phone,
@@ -157,7 +157,7 @@ def register_FISH(request):
     request.session['registered'] = True
     request.session['openID'] = p_openID
     try:
-        send_message(template_ID_FISH, p)
+        send_message_FISH(template_ID_FISH, p)
     except:
         data = {}
     else:
@@ -303,6 +303,16 @@ def login_with_oath(request):
 def send_message(template_ID, patient):
     data = {
         'patient_id': {'value': patient.patient_id},
+        'patient_name': {'value': patient.patient_name},
+        'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
+        'patient_note': {'value': patient.patient_note, 'color': '#B22222'},
+        'patient_doctor': {'value': patient.patient_doctor.doctor_name}
+    }
+    client.message.send_template(patient.patient_openID, template_ID, data)
+
+
+def send_message_FISH(template_ID, patient):
+    data = {
         'patient_name': {'value': patient.patient_name},
         'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
         'patient_note': {'value': patient.patient_note, 'color': '#B22222'},
