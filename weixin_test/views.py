@@ -157,7 +157,7 @@ def register_FISH(request):
     request.session['registered'] = True
     request.session['openID'] = p_openID
     try:
-        send_message(template_ID_FISH, p)
+        send_message(template_ID, p)
     except:
         data = {}
     else:
@@ -208,10 +208,7 @@ def admin_query_override(request):
         p.patient_status = p_status
         p.patient_note = p_note
         p.save()
-        if p_id == 0:
-            send_message(template_ID_FISH, p)
-        else:
-            send_message(template_ID, p)
+        send_message(template_ID, p)
         return render_to_response('weixin/admin_query_success.html')
     return HttpResponse('Data not received', content_type="text/plain")
 
