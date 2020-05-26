@@ -157,7 +157,7 @@ def register_FISH(request):
     request.session['registered'] = True
     request.session['openID'] = p_openID
     try:
-        send_message_FISH(template_ID, p)
+        send_message(template_ID_FISH, p)
     except:
         data = {}
     else:
@@ -310,12 +310,3 @@ def send_message(template_ID, patient):
     }
     client.message.send_template(patient.patient_openID, template_ID, data)
 
-
-def send_message_FISH(template_ID, patient):
-    data = {
-        'patient_name': {'value': patient.patient_name},
-        'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
-        'patient_note': {'value': patient.patient_note, 'color': '#B22222'},
-        'patient_doctor': {'value': patient.patient_doctor.doctor_name}
-    }
-    client.message.send_template(patient.patient_openID, template_ID, data)
