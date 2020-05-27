@@ -18,7 +18,6 @@ oauthClient_member = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=re
 oauthClient_FISH = WeChatOAuth(app_id=appID, secret=appsecret, redirect_uri=redirect_uri_FISH)
 client = WeChatClient(appID, appsecret)
 
-
 @csrf_exempt
 def index(request):
     if request.method == 'GET':
@@ -110,7 +109,7 @@ def register_form_FISH(request):
         params = {'openid': res['openid']}
         return render_to_response('weixin/register_form_FISH.html', params)
     else:
-        return HttpResponseRedirect(oauthClient.authorize_url)
+        return HttpResponseRedirect(oauthClient_FISH.authorize_url)
 
 
 # 会诊登记页面处理
@@ -139,13 +138,14 @@ def register(request):
         data = {'notify': True}
     return JsonResponse(data)
 
+
 # FISH登记页面处理
 def register_FISH(request):
     p_name = request.GET.get('patient_name')
     p_openID = request.GET.get('patient_openID')
     p_phone = request.GET.get('patient_phone')
     p_doctor = Doctor.objects.get(doctor_name="曹自")
-    p = Patient(patient_id=0,
+    p = Patient(patient_id=Patient.objects.all().count(),
                 patient_name=p_name,
                 patient_openID=p_openID,
                 patient_phone=p_phone,
@@ -157,7 +157,7 @@ def register_FISH(request):
     request.session['registered'] = True
     request.session['openID'] = p_openID
     try:
-        send_message(template_ID, p)
+        send_message_FISH(template_ID_FISH, p)
     except:
         data = {}
     else:
@@ -171,7 +171,8 @@ def after_register(request):
     if notify == 'success':
         return render_to_response('weixin/register_success.html')
     else:
-        return HttpResponseRedirect(oauthClient.authorize_url)
+        return HttpResponseRedirect(oauthClient_FISH.authorize_url)
+
 
 # 查询
 def query_form(request):
@@ -196,21 +197,6 @@ def login_form(request):
                       {'patients_not_informed': patients_not_informed})
     else:
         return HttpResponseRedirect(oauthClient_member.authorize_url)
-
-
-@csrf_exempt
-def admin_query_override(request):
-    if request.method == "POST":
-        p_id = request.POST.get('patient_id', '')
-        p_status = request.POST.get('patient_status', '')
-        p_note = request.POST.get('patient_note', '')
-        p = Patient.objects.get(patient_id=p_id)
-        p.patient_status = p_status
-        p.patient_note = p_note
-        p.save()
-        send_message(template_ID, p)
-        return render_to_response('weixin/admin_query_success.html')
-    return HttpResponse('Data not received', content_type="text/plain")
 
 
 # 检查患者输入的会诊号是否存在
@@ -246,7 +232,10 @@ def admin_query_override(request):
     p.patient_note = p_note
     p.save()
     try:
-        send_message(template_ID, p)
+        if p.patient_doctor.doctor_name == "曹自":
+            send_message_FISH(template_ID_FISH, p)
+        else:
+            send_message(template_ID, p)
     except :
         data = {}
     else:
@@ -307,3 +296,12 @@ def send_message(template_ID, patient):
     }
     client.message.send_template(patient.patient_openID, template_ID, data)
 
+
+def send_message_FISH(template_ID, patient):
+    data = {
+        'patient_name': {'value': patient.patient_name},
+        'patient_status': {'value': patient.patient_status, 'color': '#B22222'},
+        'patient_note': {'value': patient.patient_note, 'color': '#B22222'},
+        'patient_doctor': {'value': patient.patient_doctor.doctor_name}
+    }
+    client.message.send_template(patient.patient_openID, template_ID, data)
