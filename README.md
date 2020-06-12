@@ -21,7 +21,7 @@
 ### 下面是登录界面，点击登录
 ![登录](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/9.jpg)
 ### 如果没有授权，无法登录
-![登录失败](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/12.jpg)
+![登录失败](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/12.png)
 ### 患者管理页面
 ![单个患者管理](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/2.jpg)
 
