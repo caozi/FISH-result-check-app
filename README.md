@@ -1,5 +1,5 @@
-## 通过微信公众号平台实现的一个简单的病理结果的自助查询，通知系统,
-#  为什么叫 FISH-result-check-app呢，我在我们科干FISH的活，一开始是想弄个通知患者FISH结果的这么一个服务，后来就逐渐推广到全科在测试
+# 通过微信公众号平台实现的一个简单的病理结果的自助查询，通知系统,
+##  为什么叫 FISH-result-check-app呢，我在我们科干FISH的活，一开始是想弄个通知患者FISH结果的这么一个服务，后来就逐渐推广到全科在测试
 ## 基于 Django，mysql，jquery，weui，wechatpy
 测试号二维码，用微信扫描
 ![二维码](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/-1.jpg)
