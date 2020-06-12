@@ -1,4 +1,4 @@
-# 通过微信公众号平台实现的一个简单的病理结果的自助查询，通知系统,
+# 通过微信公众号平台实现的一个病理结果的自助查询，通知系统,还在不断修改中...
 ##  为什么叫 FISH-result-check-app呢，我在我们科干FISH的活，一开始是想弄个通知患者FISH结果的这么一个服务，后来就逐渐推广到全科在测试
 ## 基于 Django，mysql，jquery，weui，wechatpy
 ### 测试号二维码，用微信扫描
@@ -27,8 +27,8 @@
 
 ![单个患者管理](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/3.jpg)
 
-![单个患者管理](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/4.jpg)
+![单个患者管理](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/8.jpg)
 
-![单个患者管理](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/6.jpg)
+![单个患者管理](https://github.com/caozi/FISH-result-check-app/blob/master/screenshot/4.jpg)
 
 ### 2020/6/12 工作比较忙，时间不富裕，偷空改改，慢慢改进吧，今天下午有时间，赶紧把READEME好好写一下
